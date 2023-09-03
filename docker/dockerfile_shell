@@ -1,0 +1,5 @@
+FROM cibuilds/hugo:0.117
+
+WORKDIR /src
+
+ENTRYPOINT /bin/sh

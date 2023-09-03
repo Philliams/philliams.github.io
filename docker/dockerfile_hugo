@@ -1,0 +1,6 @@
+FROM cibuilds/hugo:0.117
+
+WORKDIR /src
+EXPOSE 1313
+
+ENTRYPOINT hugo server -D --bind=0.0.0.0 --baseURL=http://0.0.0.0
