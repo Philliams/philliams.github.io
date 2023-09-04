@@ -28,7 +28,7 @@ build: clean build_docker_build
 	docker run --name ${image_name}-serve \
 	--mount type=bind,source=./src,target=/src \
 	--mount type=bind,source=./blog_build,target=/build \
-	-it -p ${hugo_port}:${hugo_port} ${image_name}-build
+	-p ${hugo_port}:${hugo_port} ${image_name}-build
 
 clean:
 	docker rm --force ${image_name}-shell
