@@ -3,7 +3,6 @@ FROM cibuilds/hugo:0.117
 COPY /src /src
 COPY /blog_build /build
 
-
 WORKDIR /src
 
-ENTRYPOINT /bin/sh
+ENTRYPOINT hugo --destination ../build
