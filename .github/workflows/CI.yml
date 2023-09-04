@@ -31,6 +31,8 @@ jobs:
         run: pwd
       - name: Test 2
         run: ls
+      - name: Test 3
+        run: ls blog_build
       - name: Deploy documentation to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
