@@ -1,7 +1,7 @@
 baseURL = 'https://philliams.github.io/'
 languageCode = 'en-us'
 title = 'An Hour A Day'
-theme = 'papermod'
+theme = 'PaperMod'
 
 
 [menu]
