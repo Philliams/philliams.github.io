@@ -1,7 +1,13 @@
 ---
 title: "My First Post"
 date: 2023-09-03T20:15:17Z
-draft: true
+draft: false
+tags: ["Test1", "Test2"]
+cover:
+    image: "/posts/first_post/splash_1.jpg"
+    alt: "alt text test"
+    caption: "caption text test"
+ShowReadingTime: true
 ---
 
 ## Introduction

@@ -1,6 +1,5 @@
 ---
-title: "About"
-menu: main
+title: "About Me"
 ---
 
-This page will contain information about the author
+I am a Canadian software developer and Machine Learning researcher.

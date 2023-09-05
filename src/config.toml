@@ -1,4 +1,24 @@
 baseURL = 'https://philliams.github.io/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'ananke'
+title = 'An Hour A Day'
+theme = 'papermod'
+
+
+[menu]
+[[menu.main]]
+    name = 'Publications'
+    pageRef = 'publications.md'
+    weight = 10
+[[menu.main]]
+    name = 'About Me'
+    pageRef = 'about.md'
+    weight = 20
+[[menu.main]]
+    name = 'Posts'
+    pageRef = '/posts/'
+    weight = 30
+[[menu.main]]
+    name = 'Tags'
+    pageRef = '/tags/'
+    weight = 40
+
