@@ -24,7 +24,9 @@ jobs:
         with:
           submodules: 'true'
       - name: Test 1
-        run: ls /src/themes
+        run: ls src
+      - name: Test 2
+        run: ls src/themes
       - name: Build image for hugo build
         run: make build_docker_build
       - name: Build blog
