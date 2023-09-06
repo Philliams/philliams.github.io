@@ -34,3 +34,7 @@ clean:
 	docker rm --force ${image_name}-shell
 	docker rm --force ${image_name}-serve
 	docker rm --force ${image_name}-build
+	mv ./blog_build/.gitignore ./.blog_gitignore
+	rm -rf ./blog_build/
+	mkdir ./blog_build/
+	mv ./.blog_gitignore ./blog_build/.gitignore

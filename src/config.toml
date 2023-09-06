@@ -3,7 +3,7 @@ languageCode = 'en-us'
 title = 'An Hour A Day'
 theme = 'PaperMod'
 
-
+# navbar config
 [menu]
 [[menu.main]]
     name = 'Publications'
@@ -18,9 +18,32 @@ theme = 'PaperMod'
     pageRef = '/posts/'
     weight = 30
 [[menu.main]]
+    name = 'Search'
+    pageRef = 'search.md'
+    weight = 40
+[[menu.main]]
     name = 'Tags'
     pageRef = '/tags/'
-    weight = 40
+    weight = 50
 
+# used to enable iframes for graphs
 [markup.goldmark.renderer]
     unsafe= true
+
+# configure outputs for search page
+[outputs]
+    home = ['HTML', 'RSS', 'JSON']
+
+# configure homepage layout
+[params.homeInfoParams]
+Title = "Hi there wave"
+Content = "Can be Info, links, about..."
+
+[[params.socialIcons]]
+name = "<platform>"
+url = "<link>"
+
+[[params.socialIcons]]
+name = "<platform 2>"
+url = "<link2>"
+
