@@ -1,6 +1,6 @@
 ---
 title: "Implementing Logistic regression in Python"
-date: 2023-09-02T12:00:00Z
+date: 2021-01-22T12:00:00Z
 draft: false
 tags: ["Python", "Machine Learning"]
 cover:
@@ -8,6 +8,7 @@ cover:
     alt: "Books and knowledge"
 ShowReadingTime: true
 math: true
+ShowCodeCopyButtons: true
 ---
 
 One of the simplest Machine Learning algorithms is Logistic Regression. At a conceptual level, there’s not much more to it than some simple calculus, but this algorithm can still be pretty effective in a lot of situations. In this post, we’re going to take a little bit of a look at the math behind Logistic Regression and then implement our own Logistic Regression library in python.
