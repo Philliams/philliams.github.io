@@ -36,14 +36,15 @@ theme = 'PaperMod'
 
 # configure homepage layout
 [params.homeInfoParams]
-Title = "Hi there wave"
-Content = "Can be Info, links, about..."
+Title = "An Hour A Day"
+Content = "Welcome to my blog about random thoughts and explorations in software"
 
+# can have multiple of these for multiple links
 [[params.socialIcons]]
-name = "<platform>"
-url = "<link>"
+name = "github"
+url = "https://github.com/Philliams"
 
-[[params.socialIcons]]
-name = "<platform 2>"
-url = "<link2>"
+# [[params.socialIcons]]
+# name = "<platform 2>"
+# url = "<link2>"
 
