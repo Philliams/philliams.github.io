@@ -3,9 +3,9 @@ title: "How to get a job as a student"
 date: 2021-01-20T12:00:00Z
 draft: false
 tags: ["Students", "Career"]
-cover:
-    image: "/posts/getting_student_job/splash.jpg"
-    alt: "Student working at computer"
+# cover:
+#     image: "/posts/getting_student_job/splash.jpg"
+#     alt: "Student working at computer"
 ShowReadingTime: true
 ---
 

@@ -3,9 +3,9 @@ title: "Implementing Logistic regression in Python"
 date: 2021-01-22T12:00:00Z
 draft: false
 tags: ["Python", "Machine Learning"]
-cover:
-    image: "/posts/logistic_regression/splash.jpg"
-    alt: "Books and knowledge"
+# cover:
+#     image: "/posts/logistic_regression/splash.jpg"
+#     alt: "Books and knowledge"
 ShowReadingTime: true
 math: true
 ShowCodeCopyButtons: true
