@@ -2,7 +2,7 @@
 title: "Principled Development and Technical Excellence"
 date: 2023-09-07T12:00:00Z
 draft: true
-tags: ["Career", "Software Engineering"]
+tags: ["Career", "Software Engineering", "5 Year Recap"]
 ShowReadingTime: true
 ---
 

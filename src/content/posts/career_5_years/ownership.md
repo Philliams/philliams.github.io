@@ -2,7 +2,7 @@
 title: "Effective Ownership in Software Development"
 date: 2023-09-07T12:00:00Z
 draft: true
-tags: ["Career"]
+tags: ["Career", "5 Year Recap"]
 ShowReadingTime: true
 ---
 

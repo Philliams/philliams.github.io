@@ -2,7 +2,7 @@
 title: "University College London - Part 0"
 date: 2023-09-07T12:00:00Z
 draft: true
-tags: ["Career"]
+tags: ["Career", "5 Year Recap"]
 ShowReadingTime: true
 # cover:
 #     image: "/posts/career_5_years/splash.jpg"
@@ -56,17 +56,35 @@ However, there are some heuristics that **are** unambiguous, actional and object
 2. Deployable: Is your code easy to deploy? The ease of deployment can be measure by how much configuration/parameters are needed to get something simple up and running, how many other services need to be deployed as prerequisites, how long it takes to deploy (faster is better), and how much of the deployment can be feasibly automated (more automation is better).
 3. Debuggability : Is your code easy to debug? The ease of debugging can be measure by how much effort is needed to access some internal state (easier to access is better), if the application can be run with a debugger enabled, and how long the iteration cycle to make and test a change is (shorter iteration cycle is better).
 
-In my experience, having a set of unambiguous, actionable and objective guiding principled for development has been key to aligning on design, and has led to robust, performant and high-quality software.
+In my experience, having a set of unambiguous, actionable and objective guiding principled for development has been key to aligning on design, and has led to robust, performant and high-quality software. A full write-up of my thoughts can be found in the [Principled Development]( {{< relref "posts/career_5_years/principled_excellence.md" >}} ) post.
 
 
 ### Meta Strategies
 
+A meta-strategy is a strategy for choosing which strategy to apply in a given situation. For example, monoliths an micro-services are both software development strategies that have various advantages and disadvantages. Rather than always using either monoliths or micro-services, a meta-strategy would give you a consistent way to choose which architecture, design or strategy to use in any given situation.
 
+Meta-strategies can also apply to more team or project oriented questions, and can be used in a technical or non-technical capacity. For example, decisions such as whether to refactor code or keep it as-is, whether to pick design A or B, or whether to go with business plan X or Y, can all be resolved if you have a robust meta-strategy.
+
+My personal meta-strategy is outlined in the [Meta-Strategy]( {{< relref "posts/career_5_years/meta_strategy.md" >}} ) post, but can be roughly boiled down to a few key steps:
+
+1. Be clear and unambiguous in specifying exactly the problem you are trying to solve
+2. Identify the win conditions that need to be met (requirements) and loss conditions that need to be avoided (i.e. missing deadlines)
+3. Evaluate strategies based on how they meet the requirements and avoid the loss conditions. Avoid any complexity beyond exactly the requirements.
+
+Having a clear and actionable meta-strategy allows for difficult decisions to be made in a consistent and justifiable way, and can even help communicate the reasoning to various stake holders.
 
 ### Technical Excellence
 
+Related to both meta-strategies and principled development is technical excellence. Having a strong understandings of the limits and features of various technologies, architectures and algorithms provides both more information to make better decisions and the capcity for better execution of the chosen strategy. Technical excellence feeds into the principles you adopt and informs the variables accounted for in your meta-strategy. On the other hand, robust principles and meta-strategy give context and ground your technical expertise.
+
+> We are what we repeatedly do. Excellence, then, is not an act but a habit. - Aristotle
+
+In particular, technical excellence is not an innate charactiristic, but rather something that needs to be diligently practiced at both an individual level and at a team level. At an individual level, technical excellence is achieved by learning and experimenting. Trying new technologies, running experiments for various architectures, and exploring new best practices. As a team, maintaining code quality is like fighting against gravity. Tt is difficult to for the code quality to stay at the same level, it is easy to make the code worse, and almost impossible to improve code quality. However, improving code quality is still possible even on large enterprise projects. The key is to have the discipline to continuously improve developper experience. Reducing build times, enabled debuggers, separating concerns so tests can be executed locally, and pushing back on complexity will ensure that iteration times are short and that developers are nimble and productive. From there, it is much easier to make changes as needed. From there, it is a lot easier to achieve sustainable technical excellence, since the team has all the tools to modify large portions of code quickly and with little risk.
+
 ## Further Reading
+
+This post was intended as a quick overview of the main four pillars that led to the ongoing success of my work and team at $dayjob$. More detailed write-ups that dig into the nuances are available:
 
 - [Ownership]( {{< relref "posts/career_5_years/ownership.md" >}} )
 - [Meta-Strategy]( {{< relref "posts/career_5_years/meta_strategy.md" >}} )
-- [Principled Development]( {{< relref "posts/career_5_years/principled_excellence.md" >}} )
+- [Principled Development and Technical Excellence]( {{< relref "posts/career_5_years/principled_excellence.md" >}} )
