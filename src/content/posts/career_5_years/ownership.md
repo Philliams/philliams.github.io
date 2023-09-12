@@ -6,15 +6,24 @@ tags: ["Career", "5 Year Recap"]
 ShowReadingTime: true
 ---
 
-From low-level design to high-level project planning, ownership is central to succesfully enacting change. But before we can talk about what ownership means and how to achieve it, we need to agree on a definition of ownership.
+From low-level design to high-level project planning, ownership is central to succesfully enacting change. In this post, I will talk about what ownership is, and several ways to achieve effective ownership.
+
+## What is ownership?
+
+Before we can talk about what ownership means and how to achieve it, we need to agree on a definition of ownership. For me, ownership has three pillars: the authority to influence outcomes, responsibility for the outcomes, and a commitment to making sure that the things that need to be done, get done.
 
 > Ownership is a combination of authority to drive the course of action taken, and responsibility for the outcome.
-> Ownership is also about making sure that the things that need to be done, get done
+
+When it comes to a software project, ownership can manifest itself in a variety of ways and in multiple scopes. At a low-level, ownership may mean pushing back on poor implementation in pull requests. At a mid-level, ownership may mean doing technical due diligence to ensure high quality designs. At a high-level, ownership means taking a longer view on things; making sure that the overall direction of the product is correct, coordinating with other teams to avoid issues, and fostering growth within the team.
+
+## Achieving ownership
 
 First of all, in order to take ownership of something, you need to be able to meaningfully influence the outcome and take responsibility for how it turns out. Towards this end, ownership can usually be achieved through 'hard' power and 'soft' power. Hard power comes in the form of your superior assigning you tasks. On the other hand, soft power is being able to achieve ends by persuading peers or superiors, without a way to force them to adopt a particular course of action. Soft power is more broadly applicable and is more interesting, since it can be achieved regardless of seniority and can be used outside of your immediate team.
 
 A useful and straightforward way of achieving ownership via soft power is by being a known "expert". If you are the most knowledgeable person about a particular area (but not neccesarily the most senior overall), then people will consult you for future developments in that area. Consequently, you will be able to achieve ownership, as you will both be able to influence decision making via your input, as well as having responsibility by virtue of being the known "expert" for that area. One way of becoming the known "expert" is to be a champion. If you have an idea and champion it, then you can become the de-facto expert simply by being the person who did the work.
 
 Another way of achieving is by ongoing discussions and mentorships. It can be difficult to suddenly convince someone of an idea the first time they encounter it. But on the flipside, if you've been having discussions about similar topics on an ongoing basis, and align yourselves before the fact, it can be much easier to get buy in, since the ground work has already been laid.
+
+## Conclusions
 
 Finally, the last aspect of ownership is making sure that the right decisions are made, and that the necessary tasks are completed. It is often easy to avoid conflict, but it is key to push back against bad decisions and strategies, and to ensure the desired outcome.
