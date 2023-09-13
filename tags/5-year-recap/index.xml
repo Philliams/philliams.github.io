@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>5 Year Recap on An Hour A Day</title>
+    <link>https://philliams.github.io/tags/5-year-recap/</link>
+    <description>Recent content in 5 Year Recap on An Hour A Day</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Sep 2023 12:00:00 +0000</lastBuildDate><atom:link href="https://philliams.github.io/tags/5-year-recap/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>University College London - Part 0</title>
+      <link>https://philliams.github.io/posts/career_5_years/recap/</link>
+      <pubDate>Sat, 09 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/recap/</guid>
+      <description>This September I am taking a leave from my job at $dayjob$ to pursue a Master&amp;rsquo;s of Science in Machine Learning at University College London. As I am opening a new chapter in my life, I want to reflect and write down some of the key themes from my first 5 years in industry.
+Background Context At $dayjob$, the bulk of my work was focused on time series forecasting for supply chain management.</description>
+    </item>
+    
+    <item>
+      <title>Meta-strategies for Software Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/meta_strategy/</link>
+      <pubDate>Tue, 12 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/meta_strategy/</guid>
+      <description>A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:</description>
+    </item>
+    
+    <item>
+      <title>Effective Ownership in Software Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/ownership/</link>
+      <pubDate>Mon, 11 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/ownership/</guid>
+      <description>From low-level design to high-level project planning, ownership is central to succesfully enacting change. In this post, I will talk about what ownership is, and several ways to achieve effective ownership.
+What is ownership? Before we can talk about what ownership means and how to achieve it, we need to agree on a definition of ownership. For me, ownership has three pillars: the authority to influence outcomes, responsibility for the outcomes, and a commitment to making sure that the things that need to be done, get done.</description>
+    </item>
+    
+    <item>
+      <title>Principled Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/principled_excellence/</link>
+      <pubDate>Sun, 10 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/principled_excellence/</guid>
+      <description>I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &amp;ldquo;Principled Development&amp;rdquo; into my daily work as a Machine Learning developer.
+In this post, &amp;ldquo;Principled Development&amp;rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.</description>
+    </item>
+    
+  </channel>
+</rss>
