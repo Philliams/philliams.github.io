@@ -1,7 +1,6 @@
 ---
 title: "Meta-strategies for Software Development"
-date: 2023-09-07T12:00:00Z
-draft: true
+date: 2023-09-12T12:00:00Z
 tags: ["Sotware Engineering", "Career", "5 Year Recap"]
 ShowReadingTime: true
 ---
@@ -43,8 +42,6 @@ An example of a tempo move is to implement a quick, hacky fix that solves a bug 
 
 The concept of tempo and scaling is tightly coupled to the concept of win/lose conditions. Tempo and scaling can only be meaningfully discussed through the lens of specific objectives in time. In fact, you can imagine win conditions and lose conditions as set points spaced out in time. You need to balance scaling and tempo so that you are able to meet your short term obligations, while not putting yourself in a position where you are not able to meet your long-term obligations. For example, taking on technical today to meet an objective next week may make sense. On the other hand, taking on technical debt now to get started quickly may not make sense if the deadline is in a year.
 
-< draw diagram about dev over time + win/lose condition hurdles >
-
 ## Variance and Risk
 
 The last two key concepts for meta-strategies are variance and risk:
@@ -62,6 +59,10 @@ Additionally, there are three main situations that a project can find itself in:
 When evaluating strategies, we often lack the language and framework for properly discussing risks. Often, when people say that something is risky, they are really saying that the outcome is uncertain (high-variance). However, high-variance is not always a bad thing. For example, if your project is in a default-lose state, it may be worth adopting a high-variance strategy to get you into the uncertain state. This may seem unintuitive, but if you have a 95% chance of failure for a low-variance strategy, or a 50/50 chance of success or failure, then it is worth taking a gamble. You still have a 50% chance of losing, but your chances of success increased by 10x from 5% to 50%. Through this lens, we can reason about various strategies in a more analytic way, and can discover unintuitive strategies that are very good when explored thorougly.
 
 ### One-way doors
+
+An interesting concept is the "One-Way Door". A one-way door is a decision that once made, is impossible or very expensive to undo. On the other hand, a two-way door is a decision that can easily be reverted down the line. One-way doors should be deferred to the last possible moment. If you implement a one-way door too early, you take on complexity now and open yourself up to very painful technical issues if the requirements were to change in the meantime. Additionally, if you are forced to implement a one-way door, then you likely have a very compelling reason to do so.
+
+In other words, two-way doors decision can be made more lightly and eagerly, while one-way door decisions should be deferred to the last possible moment and should be considered much more carefully.
 
 ## My Meta-Strategy
 
@@ -82,10 +83,10 @@ Now that we have all the concepts for a meta-strategy, we can discuss my particu
     - any un-allocated capacity is allocated to scaling
     - more un-allocated capacity is good, as it allows for more scaling effort
     - if solution turns out to not be suitable, revisit other solutions
-5. Once a final soltion is chosen
+5. Once a final solution is chosen
     - break down implementation work needed
     - plan immediate implementation needed for short-term deliverables
-    - plan scaling work for any un-used capacity
+    - plan scaling work for any unused capacity
         - clean up technical debt
         - improve performance
         - improve tooling

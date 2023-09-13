@@ -1,7 +1,6 @@
 ---
 title: "Effective Ownership in Software Development"
-date: 2023-09-07T12:00:00Z
-draft: true
+date: 2023-09-11T12:00:00Z
 tags: ["Career", "5 Year Recap"]
 ShowReadingTime: true
 ---
@@ -18,12 +17,14 @@ When it comes to a software project, ownership can manifest itself in a variety 
 
 ## Achieving ownership
 
-First of all, in order to take ownership of something, you need to be able to meaningfully influence the outcome and take responsibility for how it turns out. Towards this end, ownership can usually be achieved through 'hard' power and 'soft' power. Hard power comes in the form of your superior assigning you tasks. On the other hand, soft power is being able to achieve ends by persuading peers or superiors, without a way to force them to adopt a particular course of action. Soft power is more broadly applicable and is more interesting, since it can be achieved regardless of seniority and can be used outside of your immediate team.
+Ownership and authority typically come in two flavors : "hard" power and "soft" power. Hard power comes in the form of your superior assigning you tasks. On the other hand, soft power is being able to achieve ends by persuading peers or superiors, without a way to force them to adopt a particular course of action. Soft power is more broadly applicable and is more interesting, since it can be achieved regardless of seniority and can be used outside of your immediate team.
 
-A useful and straightforward way of achieving ownership via soft power is by being a known "expert". If you are the most knowledgeable person about a particular area (but not neccesarily the most senior overall), then people will consult you for future developments in that area. Consequently, you will be able to achieve ownership, as you will both be able to influence decision making via your input, as well as having responsibility by virtue of being the known "expert" for that area. One way of becoming the known "expert" is to be a champion. If you have an idea and champion it, then you can become the de-facto expert simply by being the person who did the work.
+There are a couple of ways to achieve ownership via soft power. First of all, you can achive ownership by being a known expert for a given area. If you are the most knowledgeable person about a particular area (but not neccesarily the most senior overall), then people will consult you for future developments in that area. Consequently, you will be able to achieve ownership, as you will both be able to influence decision making via your input, as well as having responsibility by virtue of being the known "expert" for that area.
 
-Another way of achieving is by ongoing discussions and mentorships. It can be difficult to suddenly convince someone of an idea the first time they encounter it. But on the flipside, if you've been having discussions about similar topics on an ongoing basis, and align yourselves before the fact, it can be much easier to get buy in, since the ground work has already been laid.
+Another way of achieve ownership and soft power is to be involved in ongoing discussions and mentorship. It can be difficult to suddenly convince someone of an idea the first time they encounter it. But on the flipside, if you've been having discussions about similar topics on an ongoing basis, and align yourselves before the fact, it can be much easier to get buy in, since the ground work has already been laid.
+
+Finally, a useful way of gaining ownership is by being a champion. If you have an idea, and you pitch it to the team, and you don't hear a no, then go ahead and implement it! This way, you can gain ownership by virtue of taking initiative and being the first person to implement a given piece of functionality. Being a champion can be an incredibly effective way of gaining ownership and cutting through red tape. That being said, being a champion and having ownership means being comfortable with the risk of being wrong in a very public way.
 
 ## Conclusions
 
-Finally, the last aspect of ownership is making sure that the right decisions are made, and that the necessary tasks are completed. It is often easy to avoid conflict, but it is key to push back against bad decisions and strategies, and to ensure the desired outcome.
+In conclusion, ownership is key to enacting change and can be achieved via a couple of paths. But the core takeaway is that ownership is about making sure that the right decisions are made, and the the work that needs to get done, gets done. This may mean joining meetings to raise concerns, reaching out to other teams to coordinate efforts and align technical vision, or something as simple as taking initiative and implementing a new tool in a code base.

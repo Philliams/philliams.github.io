@@ -1,7 +1,6 @@
 ---
 title: "Principled Development"
-date: 2023-09-07T12:00:00Z
-draft: true
+date: 2023-09-10T12:00:00Z
 tags: ["Career", "Software Engineering", "5 Year Recap"]
 ShowReadingTime: true
 ---
@@ -13,6 +12,8 @@ In this post, "Principled Development" refects to having a framework of clear an
 The framework in question should be a set of clear, unambiguous, actionable and objective principles and heuristics to guide development. For example, "good code", "clean code" or "better abstractions" are all completely useless when evaluating code. For example, "good code" is a matter of personal taste, and does not relate to any actionable insighs to increasing code quality. On the other hand "easy to test", "easy to deploy" and "easy to modify" are all clear, unambiguous and actionable principles that lead to better code quality and better developer experience. Code that requires a lot of mocking or complex internal state is hard to test, and should be refactored to be more easily tested. Code that requires complex and slow deployment makes development more difficult, and should be changed to be deployed quickly via a single command. Code that requires a lot of pain staking changes to configuration files is hard to modify, and should be refactored such that changes can be quickly tested with minimal overhead.
 
 The specific choice of principles may be different from one developer to another, or from one team to another. This is fine and expected, the key take-away is that developers should strive to develop their own set of principles, and to make every decision and to validate every design against their set of principles. Additionally, the principles would be expected to evolve over time and in the presence of new information.
+
+## My Principles
 
 My personal framework for principled development has 8 core tenets:
 
@@ -164,20 +165,35 @@ In the second example above, we can now test the `do_logic` function on it's own
 
 #### Short iteration cycles
 
+There should be an emphasis on short iteration cycles. If significant logic can be run or tested locally, the iteration time for
+testing a change may be on the order of seconds. On the other hand, the same code may take many minutes or hours to deploy and test in a staging environment. Short iteration loops allow for greater productivity, code quality, and reduces risk when making changes. Consequently, architectures that enable short iteration cycles should be heavily encouraged when choosing designs.
 
+Some tricks for enabling short iteration cycles include:
+- Local only development
+- Moving detailed checks from integration tests to unit tests
+- Using static analysis tools
 
 #### Fail eagerly
 
+Code should check for reasonably expected edge cases that would cause the code to fail. Additionally, the code should fail at the earliest possible opportunity with descriptive and actionable error messages that allow for the code to be debugged with needing to manually instrument the code and re-run the application. In essence, if any inputs are wrong, malformed, corrupted, incorrectly configured, etc., an exception should be raised that will allow for a developer to quickly identify the source of the issue.
 
+An extreme version of this is "Crash-only Software", where any unexpected failure causes the system to outright crash. In the short term, this makes the system more flakey and prone to crashing. But in the long term, the system becomes more robust as any issues are immediatly made visible and resolved.
 
 #### Fail explicitely
 
+In Machine Learning applications, it is key not only to have the application run correctly, but also to ensure that the model and data are accurate. Towards this end, silent failures are a significant source of issues. Silent failures can degrade data quality, degrade model quality, or cause issues in training and inference in a hard-to-detect manner.
+
+As such, various mechanicsm that swallow exceptions such be avoided. For example, blanket catch statements should not be used. Rather only specific and expected exception should be caught. If a library or dependency is expected to sometimes raise exceptions, those should be caught and handled as part of the regular control flow. If an exception is not expected, then it should be raised, logged, or otherwise surfaced. Silent failures are some of the hardest errors to fix and should be avoided.
 
 
 #### Thin and flat
 
-
+Code should be kept as flat and thin as possible. Minimize nested logic, abstraction, and inheritance. There are many reasons for this: 1) deeper code has been showed to be disproportionally hard to understand (Maheswaran, K., and A. Aloysius. "Cognitive weighted inherited class complexity metric." Procedia Computer Science 125 (2018): 297-304.) and 2) deeper code makes debugging much harder, as the internal state is less accessible and requires significant changes to examine the behaviour at a low level.
 
 #### Ease of debugging
 
+Finally, the code should be as easy to debug as possible. In an abstract sense, this means making the internal state of the code as accessible as possible. In practice, this means a few things: 1) minimizing the number of abstraction layers between the developer and the running code, 2) enabling tools such as debuggers and log aggregation services, and 3) setting up sample datasets and environments to quickly set up and test the code in a variety of situations.
 
+## Conclusion
+
+In conclusion, meta-strategies are a powerful tool for making and communicating technical decisions. Additionally, meta-strategies should be clear and actionable, with some examples and inspiration given by my personal meta-strategy. Finally, meta-strategies can be shared within a broader team or organization, as a way of aligning developers and building more consistent and hig-quality software.
