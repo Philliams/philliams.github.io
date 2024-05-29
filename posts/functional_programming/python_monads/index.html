@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Monads in Python | An Hour A Day</title>
+<meta name="keywords" content="Python, Functional Programming">
+<meta name="description" content="Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.
+When talking about Monads, there are three &ldquo;main&rdquo; things that I use to describe in practical terms what a Monad is and what it does:
+Monads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable.">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/functional_programming/python_monads/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Monads in Python" />
+<meta property="og:description" content="Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.
+When talking about Monads, there are three &ldquo;main&rdquo; things that I use to describe in practical terms what a Monad is and what it does:
+Monads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/functional_programming/python_monads/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-16T12:00:00+00:00" />
+<meta property="article:modified_time" content="2021-02-16T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Monads in Python"/>
+<meta name="twitter:description" content="Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.
+When talking about Monads, there are three &ldquo;main&rdquo; things that I use to describe in practical terms what a Monad is and what it does:
+Monads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Monads in Python",
+      "item": "https://philliams.github.io/posts/functional_programming/python_monads/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Monads in Python",
+  "name": "Monads in Python",
+  "description": "Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.\nWhen talking about Monads, there are three \u0026ldquo;main\u0026rdquo; things that I use to describe in practical terms what a Monad is and what it does:\nMonads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable.",
+  "keywords": [
+    "Python", "Functional Programming"
+  ],
+  "articleBody": "Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.\nWhen talking about Monads, there are three “main” things that I use to describe in practical terms what a Monad is and what it does:\nMonads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable. You can turn a regular variable into a Monad by taking whatever value you want and “wrapping” it with your Monad implementation. You need to have a way to apply functions and transformations to Monads to get a new Monad out. We’ll talk a little bit more about what the exact terminology is used for the various properties of Monads as well as the specific implementation, but first let’s work through a very simple Monad called the Maybe Monad.\nThe Maybe Monad The Maybe Monad is named the way that it is, since it is a simple Monad that can either contain a value or not (maybe it has a value and maybe it doesn’t ).\nWhen implementing a Monad (in this case the Maybe Monad), the first thing that we need to have is a way of turning - or “wrapping” - a value into an instance of the Maybe Monad. The function that does this is called the unit function. In our case we will be implementing the Monad as a class and as such our unit function will actually be the initializer.\nclass MaybeMonad: def __init__(self, value: object = None, contains_value: bool = True): self.value = value self.contains_value = contains_value As you can see in the code snippet above, the first element of our Python Maybe Monad implementation is the unit function in the form of the initializer. In our instance, we will keep track of our inner value self.value as well as a flag to indicate if our Maybe Monad instance contains a value or not self.contains_value (this is needed so that it is still valid if self.value is None or False, as an alternative to checking if self.value).\nNow we have a very simple class that may contain a value or not, we need a way to apply functions to the Monad. Enter the bind function. The bind function is a method on our Monad that takes another function, applies that function to the inner value inside of the Monad and returns a new Monad with the result. The key here is that all of the logic relevant to the behavior of the Monad is implemented in the bind function. In our case, the logic for handling values/exceptions will be the main logic implemented in the bind function, but for other Monad implementations such as lazy evaluation or complex error handling, you might implement different behavior in the bind function.\nfrom collections.abc import Callable class MaybeMonad: def __init__(self, value: object = None, contains_value: bool = True): self.value = value self.contains_value = contains_value def bind(self, f: Callable) -\u003e 'MaybeMonad': if not self.contains_value: return MaybeMonad(None, contains_value=False) try: result = f(self.value) return MaybeMonad(result) except: return MaybeMonad(None, contains_value=False) As you can see above, our MaybeMonad class now has a bind method. The behavior of this Monad is to apply a function to the inner value, and either return a new Monad with the result, or a Monad with no inner value with the self.contains_value flag set to False. Using this Monad, we can now apply a bunch of operations that may or may not fail and simply check if it contains a value at the end of our sequence of operations.\nLet’s look at how we might use this Maybe Monad to compute a bunch of operations to a simple numerical type:\nimport numpy as np from maybe_monad import MaybeMonad value = 100 m1 = MaybeMonad(value) print(m1.value) # 100 print(m1.contains_value) # True m2 = m1.bind(np.sqrt) print(m2.value) # 10.0 m3 = m2.bind(lambda x : x / 0) print(m3.contains_value) # True print(m3.value) def exc(x): raise Exception('Failed') m4 = m3.bind(exc) print(m4.contains_value) # False In the script above, we can see how we produce the Monad instance m1 from value, we can inspect inside the Monad to see the value, we can also check the flag to see if there is in fact a value inside of the Monad. Next we can bind another function to m1 to get m2, once again we get a new Monad which happens to have a value inside of it. Finally, we try to bind a function to m2 which raises an exception. As a result we obtain a new Maybe Monad m3, which has no value inside of it and who’s self.contains_value flag is set to False (since the function failed). Even in this simple example, we can see that Monads are pretty useful, since now we can apply a bunch of functions which may raise an exception, but without needing to have a try-catch block around every function call. All of the try-catch logic is captured inside of the bind method, reducing the amount of repeated code and you to apply the logic of your Monad to any arbitrary code without having to redo any of the work.\nNext we’ll build upon this concept and introduce the FailureMonad which will be an extension of the MaybeMonad that provides a bit of additional functionality.\nThe Failure Monad MaybeMonad is pretty useful, since we can use it as a way to sequence several function calls that might raise exceptions, and then pull the value out at the end if no exceptions occurred, but what if we wanted a little more information about where and how the function failed? To do this, we could implement a little more logic in the bind method to keep track of things like the stack trace and the input parameters as well as allow for arguments and keyword arguments to be passed in:\nfrom collections.abc import Callable from typing import Dict import traceback class FailureMonad: def __init__(self, value: object = None, error_status: Dict = None): self.value = value self.error_status = error_status def bind(self, f: Callable, *args, **kwargs) -\u003e 'FailureMonad': if self.error_status: return FailureMonad(None, error_status=self.error_status) try: result = f(self.value, *args, **kwargs) return FailureMonad(result) except Exception as e: failure_status = { 'trace' : traceback.format_exc(), 'exc' : e, 'args' : args, 'kwargs' : kwargs } return FailureMonad(None, error_status=failure_status) We can then use FailureMonad to apply a sequence of functions to a value (including args and kwargs) and then print out some information about the exception such as the traceback and the arguments passed:\nimport numpy as np from failure_monad import FailureMonad def dummy_func(a, b, c=3): return a + b + c def exc(x): raise Exception('Failed') value = 100 m1 = FailureMonad(value) print(m1.value) # 100 m2 = m1.bind(np.sqrt) print(m2.value) # 10.0 m3 = m2.bind(dummy_func, 1, c=2) print(m3.value) # 13.0 m4 = m3.bind(exc) print(m4.value) # None print(m4.error_status) # {'trace' : ..., 'args' : (...,), 'kwargs' : {...}} As you can see above, we can use a Monad to not only handle exceptions in a sequence of operations gracefully, but it can also keep track of useful metadata about exceptions so that you can have all of the logic for handling various types of exceptions in a single spot (as opposed to spread out across you program). This is super useful in the context of a production system where you might have different modes of failure (memory issues, timeouts, networking problems, etc.):\nm = FailureMonad(...) m = m.bind(func_1) m = m.bind(func_2) m = m.bind(func_3) if m.error_status: e = m.error_status['exc'] if isinstance(e, ...): do_something() elif isinstance(e, ...): do_something_else() else: do_thing() So far you might be thinking “Monads are useful, but basically you’re just passing around some metadata in a fancy way”. This is not the only use-case for Monads, next we’ll be looking at a Lazy Monad to that Monads can also modify the behavior of your program in really useful ways beyond simple book-keeping operations.\nThe Lazy Monad The last example we’ll look at is the LazyMonad. For the LazyMonad we are going to implement a Monad that will lazily evaluate all of functions bound to it. Hopefully this will illustrate the value of Monads beyond simple error catching, since now we can take arbitrary code, and turn it into a lazily evaluated pipeline.\nFirst we will implement the LazyMonad itself, this will be accomplished by internally storing a function, and producing a new Monad which will return a function which itself will return the value of the function computed by the previous Monad(s):\nfrom collections.abc import Callable from typing import Dict import traceback class LazyMonad: def __init__(self, value: object): if isinstance(value, Callable): self.compute = value else: def return_val(): return value self.compute = return_val def bind(self, f: Callable, *args, **kwargs) -\u003e 'FailureMonad': def f_compute(): return f(self.compute(), *args, **kwargs) return LazyMonad(f_compute) In the code above, we can see that the bind operation will return a new Monad as with the other examples, but contrary to the other examples the inner value self.compute is actually a Callable which will compute all the previous steps when needed. We can then use our LazyMonad to demonstrate that arbitrary code can be lazily evaluated without needing to have any awareness of the inner workings of the LazyMonad:\nimport numpy as np from lazy_monad import LazyMonad def dummy_func1(e): print(f'dummy_1 : {e}') return e def dummy_func2(e): print(f'dummy_2 : {e}') return e def dummy_func3(e): print(f'dummy_3 : {e}') return e print('Start') value = 100 m1 = LazyMonad(value) print('After init') m2 = m1.bind(dummy_func1) print('After 1') m3 = m2.bind(dummy_func2) print('After 2') m4 = m3.bind(dummy_func3) print('After 3') print(m4.compute()) print('After Compute') In the example above, we can see that none of the functions run during the .bind(...) call, instead everything is calculated when .compute() is called.\nThe LazyMonad should give an indication of just how powerful Monads can be when used properly. You can essentially encode whatever logic, no matter how complex, in the bind method, and subsequently get the benefit of that logic on any arbitrary code by simply wrapping your variables with the given Monad.\nConclusion Monads are a very interesting and powerful design pattern in Functional languages that can be applied in Python to enable things such as elegant error handling or turning your code into lazily evaluated pipelines with no changes to the code itself.\nThere are many theoretical Computer Science aspects to Monads, but the key is that you need two main operations:\nUnit : Take a value and turn it into a Monad Bind : Take a Monad, apply a function to it and return a new Monad That being said, there are some really awesome resources for anyone looking to read more into the theory behind Monads such as Eric Lippert’s blog or Adit Bhargava’s “Functors, Applicatives, And Monads In Pictures”.\n",
+  "wordCount" : "1796",
+  "inLanguage": "en",
+  "datePublished": "2021-02-16T12:00:00Z",
+  "dateModified": "2021-02-16T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/functional_programming/python_monads/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Monads in Python
+    </h1>
+    <div class="post-meta"><span title='2021-02-16 12:00:00 +0000 UTC'>February 16, 2021</span>&nbsp;·&nbsp;9 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.</p>
+<p>When talking about Monads, there are three &ldquo;main&rdquo; things that I use to describe in practical terms what a Monad is and what it does:</p>
+<ol>
+<li>Monads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable.</li>
+<li>You can turn a regular variable into a Monad by taking whatever value you want and &ldquo;wrapping&rdquo; it with your Monad implementation.</li>
+<li>You need to have a way to apply functions and transformations to Monads to get a new Monad out.</li>
+</ol>
+<p>We&rsquo;ll talk a little bit more about what the exact terminology is used for the various properties of Monads as well as the specific implementation, but first let&rsquo;s work through a very simple Monad called the Maybe Monad.</p>
+<h2 id="the-maybe-monad">The Maybe Monad<a hidden class="anchor" aria-hidden="true" href="#the-maybe-monad">#</a></h2>
+<p>The Maybe Monad is named the way that it is, since it is a simple Monad that can either contain a value or not (maybe it has a value and maybe it doesn&rsquo;t ).</p>
+<p>When implementing a Monad (in this case the Maybe Monad), the first thing that we need to have is a way of turning - or &ldquo;wrapping&rdquo; - a value into an instance of the Maybe Monad. The function that does this is called the <code>unit</code> function. In our case we will be implementing the Monad as a class and as such our <code>unit</code> function will actually be the initializer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MaybeMonad</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, value: object <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>, contains_value: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>):
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>value <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>contains_value <span style="color:#f92672">=</span> contains_value
+</span></span></code></pre></div><p>As you can see in the code snippet above, the first element of our Python Maybe Monad implementation is the unit function in the form of the initializer. In our instance, we will keep track of our inner value <code>self.value</code> as well as a flag to indicate if our Maybe Monad instance contains a value or not <code>self.contains_value</code> (this is needed so that it is still valid if <code>self.value</code> is <code>None</code> or <code>False</code>, as an alternative to checking if <code>self.value</code>).</p>
+<p>Now we have a very simple class that may contain a value or not, we need a way to apply functions to the Monad. Enter the <code>bind</code> function. The <code>bind</code> function is a method on our Monad that takes another function, applies that function to the inner value inside of the Monad and returns a new Monad with the result. The key here is that all of the logic relevant to the behavior of the Monad is implemented in the <code>bind</code> function. In our case, the logic for handling values/exceptions will be the main logic implemented in the <code>bind</code> function, but for other Monad implementations such as lazy evaluation or complex error handling, you might implement different behavior in the <code>bind</code> function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">from</span> collections.abc <span style="color:#f92672">import</span> Callable
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MaybeMonad</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, value: object <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>, contains_value: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>):
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>value <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>contains_value <span style="color:#f92672">=</span> contains_value
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bind</span>(self, f: Callable) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#39;MaybeMonad&#39;</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> self<span style="color:#f92672">.</span>contains_value:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> MaybeMonad(<span style="color:#66d9ef">None</span>, contains_value<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>			result <span style="color:#f92672">=</span> f(self<span style="color:#f92672">.</span>value)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> MaybeMonad(result)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> MaybeMonad(<span style="color:#66d9ef">None</span>, contains_value<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><p>As you can see above, our <code>MaybeMonad</code> class now has a <code>bind</code> method. The behavior of this Monad is to apply a function to the inner value, and either return a new Monad with the result, or a Monad with no inner value with the <code>self.contains_value</code> flag set to <code>False</code>. Using this Monad, we can now apply a bunch of operations that may or may not fail and simply check if it contains a value at the end of our sequence of operations.</p>
+<p>Let&rsquo;s look at how we might use this Maybe Monad to compute a bunch of operations to a simple numerical type:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> maybe_monad <span style="color:#f92672">import</span> MaybeMonad
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>m1 <span style="color:#f92672">=</span> MaybeMonad(value)
+</span></span><span style="display:flex;"><span>print(m1<span style="color:#f92672">.</span>value) <span style="color:#75715e"># 100</span>
+</span></span><span style="display:flex;"><span>print(m1<span style="color:#f92672">.</span>contains_value) <span style="color:#75715e"># True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m2 <span style="color:#f92672">=</span> m1<span style="color:#f92672">.</span>bind(np<span style="color:#f92672">.</span>sqrt)
+</span></span><span style="display:flex;"><span>print(m2<span style="color:#f92672">.</span>value) <span style="color:#75715e"># 10.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m3 <span style="color:#f92672">=</span> m2<span style="color:#f92672">.</span>bind(<span style="color:#66d9ef">lambda</span> x : x <span style="color:#f92672">/</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>print(m3<span style="color:#f92672">.</span>contains_value) <span style="color:#75715e"># True</span>
+</span></span><span style="display:flex;"><span>print(m3<span style="color:#f92672">.</span>value)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exc</span>(x):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;Failed&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m4 <span style="color:#f92672">=</span> m3<span style="color:#f92672">.</span>bind(exc)
+</span></span><span style="display:flex;"><span>print(m4<span style="color:#f92672">.</span>contains_value) <span style="color:#75715e"># False</span>
+</span></span></code></pre></div><p>In the script above, we can see how we produce the Monad instance <code>m1</code> from value, we can inspect inside the Monad to see the value, we can also check the flag to see if there is in fact a value inside of the Monad. Next we can bind another function to <code>m1</code> to get <code>m2</code>, once again we get a new Monad which happens to have a value inside of it. Finally, we try to bind a function to <code>m2</code> which raises an exception. As a result we obtain a new Maybe Monad <code>m3</code>, which has no value inside of it and who&rsquo;s <code>self.contains_value</code> flag is set to <code>False</code> (since the function failed). Even in this simple example, we can see that Monads are pretty useful, since now we can apply a bunch of functions which may raise an exception, but without needing to have a try-catch block around every function call. All of the try-catch logic is captured inside of the <code>bind</code> method, reducing the amount of repeated code and you to apply the logic of your Monad to any arbitrary code without having to redo any of the work.</p>
+<p>Next we&rsquo;ll build upon this concept and introduce the <code>FailureMonad</code> which will be an extension of the <code>MaybeMonad</code> that provides a bit of additional functionality.</p>
+<h2 id="the-failure-monad">The Failure Monad<a hidden class="anchor" aria-hidden="true" href="#the-failure-monad">#</a></h2>
+<p><code>MaybeMonad</code> is pretty useful, since we can use it as a way to sequence several function calls that might raise exceptions, and then pull the value out at the end if no exceptions occurred, but what if we wanted a little more information about where and how the function failed? To do this, we could implement a little more logic in the <code>bind</code> method to keep track of things like the stack trace and the input parameters as well as allow for arguments and keyword arguments to be passed in:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">from</span> collections.abc <span style="color:#f92672">import</span> Callable
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> traceback
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FailureMonad</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, value: object <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>, error_status: Dict <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>value <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>error_status <span style="color:#f92672">=</span> error_status
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bind</span>(self, f: Callable, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#39;FailureMonad&#39;</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>error_status:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> FailureMonad(<span style="color:#66d9ef">None</span>, error_status<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>error_status)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>			result <span style="color:#f92672">=</span> f(self<span style="color:#f92672">.</span>value, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> FailureMonad(result)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			failure_status <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#39;trace&#39;</span> : traceback<span style="color:#f92672">.</span>format_exc(),
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#39;exc&#39;</span> : e,
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#39;args&#39;</span> : args,
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#39;kwargs&#39;</span> : kwargs
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> FailureMonad(<span style="color:#66d9ef">None</span>, error_status<span style="color:#f92672">=</span>failure_status)
+</span></span></code></pre></div><p>We can then use <code>FailureMonad</code> to apply a sequence of functions to a value (including <code>args</code> and <code>kwargs</code>) and then print out some information about the exception such as the traceback and the arguments passed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> failure_monad <span style="color:#f92672">import</span> FailureMonad
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dummy_func</span>(a, b, c<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exc</span>(x):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;Failed&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>m1 <span style="color:#f92672">=</span> FailureMonad(value)
+</span></span><span style="display:flex;"><span>print(m1<span style="color:#f92672">.</span>value) <span style="color:#75715e"># 100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m2 <span style="color:#f92672">=</span> m1<span style="color:#f92672">.</span>bind(np<span style="color:#f92672">.</span>sqrt)
+</span></span><span style="display:flex;"><span>print(m2<span style="color:#f92672">.</span>value) <span style="color:#75715e"># 10.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m3 <span style="color:#f92672">=</span> m2<span style="color:#f92672">.</span>bind(dummy_func, <span style="color:#ae81ff">1</span>, c<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>print(m3<span style="color:#f92672">.</span>value) <span style="color:#75715e"># 13.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m4 <span style="color:#f92672">=</span> m3<span style="color:#f92672">.</span>bind(exc)
+</span></span><span style="display:flex;"><span>print(m4<span style="color:#f92672">.</span>value) <span style="color:#75715e"># None</span>
+</span></span><span style="display:flex;"><span>print(m4<span style="color:#f92672">.</span>error_status) <span style="color:#75715e"># {&#39;trace&#39; : ..., &#39;args&#39; : (...,), &#39;kwargs&#39; : {...}}</span>
+</span></span></code></pre></div><p>As you can see above, we can use a Monad to not only handle exceptions in a sequence of operations gracefully, but it can also keep track of useful metadata about exceptions so that you can have all of the logic for handling various types of exceptions in a single spot (as opposed to spread out across you program). This is super useful in the context of a production system where you might have different modes of failure (memory issues, timeouts, networking problems, etc.):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>m <span style="color:#f92672">=</span> FailureMonad(<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>bind(func_1)
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>bind(func_2)
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>bind(func_3)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> m<span style="color:#f92672">.</span>error_status:
+</span></span><span style="display:flex;"><span>	e <span style="color:#f92672">=</span> m<span style="color:#f92672">.</span>error_status[<span style="color:#e6db74">&#39;exc&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> isinstance(e, <span style="color:#f92672">...</span>):
+</span></span><span style="display:flex;"><span>    	do_something()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> isinstance(e, <span style="color:#f92672">...</span>):
+</span></span><span style="display:flex;"><span>    	do_something_else()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    	do_thing()
+</span></span></code></pre></div><p>So far you might be thinking &ldquo;Monads are useful, but basically you&rsquo;re just passing around some metadata in a fancy way&rdquo;. This is not the only use-case for Monads, next we&rsquo;ll be looking at a Lazy Monad to that Monads can also modify the behavior of your program in really useful ways beyond simple book-keeping operations.</p>
+<h2 id="the-lazy-monad">The Lazy Monad<a hidden class="anchor" aria-hidden="true" href="#the-lazy-monad">#</a></h2>
+<p>The last example we&rsquo;ll look at is the <code>LazyMonad</code>. For the <code>LazyMonad</code> we are going to implement a Monad that will lazily evaluate all of functions bound to it. Hopefully this will illustrate the value of Monads beyond simple error catching, since now we can take arbitrary code, and turn it into a lazily evaluated pipeline.</p>
+<p>First we will implement the <code>LazyMonad</code> itself, this will be accomplished by internally storing a function, and producing a new Monad which will return a function which itself will return the value of the function computed by the previous Monad(s):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">from</span> collections.abc <span style="color:#f92672">import</span> Callable
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> traceback
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LazyMonad</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, value: object):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> isinstance(value, Callable):
+</span></span><span style="display:flex;"><span>			self<span style="color:#f92672">.</span>compute <span style="color:#f92672">=</span> value
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">return_val</span>():
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> value
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			self<span style="color:#f92672">.</span>compute <span style="color:#f92672">=</span> return_val
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bind</span>(self, f: Callable, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#39;FailureMonad&#39;</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f_compute</span>():
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> f(self<span style="color:#f92672">.</span>compute(), <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> LazyMonad(f_compute)
+</span></span></code></pre></div><p>In the code above, we can see that the <code>bind</code> operation will return a new Monad as with the other examples, but contrary to the other examples the inner value <code>self.compute</code> is actually a Callable which will compute all the previous steps when needed. We can then use our <code>LazyMonad</code> to demonstrate that arbitrary code can be lazily evaluated without needing to have any awareness of the inner workings of the <code>LazyMonad</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> lazy_monad <span style="color:#f92672">import</span> LazyMonad
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dummy_func1</span>(e):
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;dummy_1 : </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dummy_func2</span>(e):
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;dummy_2 : </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dummy_func3</span>(e):
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;dummy_3 : </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;Start&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>value <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>m1 <span style="color:#f92672">=</span> LazyMonad(value)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;After init&#39;</span>)
+</span></span><span style="display:flex;"><span>m2 <span style="color:#f92672">=</span> m1<span style="color:#f92672">.</span>bind(dummy_func1)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;After 1&#39;</span>)
+</span></span><span style="display:flex;"><span>m3 <span style="color:#f92672">=</span> m2<span style="color:#f92672">.</span>bind(dummy_func2)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;After 2&#39;</span>)
+</span></span><span style="display:flex;"><span>m4 <span style="color:#f92672">=</span> m3<span style="color:#f92672">.</span>bind(dummy_func3)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;After 3&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(m4<span style="color:#f92672">.</span>compute())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;After Compute&#39;</span>)
+</span></span></code></pre></div><p>In the example above, we can see that none of the functions run during the  <code>.bind(...)</code> call, instead everything is calculated when <code>.compute()</code> is called.</p>
+<p>The <code>LazyMonad</code> should give an indication of just how powerful Monads can be when used properly. You can essentially encode whatever logic, no matter how complex, in the <code>bind</code> method, and subsequently get the benefit of that logic on any arbitrary code by simply wrapping your variables with the given Monad.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>Monads are a very interesting and powerful design pattern in Functional languages that can be applied in Python to enable things such as elegant error handling or  turning your code into lazily evaluated pipelines with no changes to the code itself.</p>
+<p>There are many theoretical Computer Science aspects to Monads, but the key is that you need two main operations:</p>
+<ol>
+<li>Unit : Take a value and turn it into a Monad</li>
+<li>Bind : Take a Monad, apply a function to it and return a new Monad</li>
+</ol>
+<p>That being said, there are some really awesome resources for anyone looking to read more into the theory behind Monads such as Eric Lippert&rsquo;s blog or Adit Bhargava&rsquo;s &ldquo;Functors, Applicatives, And Monads In Pictures&rdquo;.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/python/">Python</a></li>
+      <li><a href="https://philliams.github.io/tags/functional-programming/">Functional Programming</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

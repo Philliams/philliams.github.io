@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Students on An Hour A Day</title>
+    <link>https://philliams.github.io/tags/students/</link>
+    <description>Recent content in Students on An Hour A Day</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jan 2021 12:00:00 +0000</lastBuildDate><atom:link href="https://philliams.github.io/tags/students/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to get a job as a student</title>
+      <link>https://philliams.github.io/posts/career_posts/getting_student_job/</link>
+      <pubDate>Wed, 20 Jan 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_posts/getting_student_job/</guid>
+      <description>I’ve gotten a lot of questions on how to get a job as a student. Often students want to buff up their resumes or skills a few weeks before their interviews. Honestly, I don’t think there’s much you can do in less than a few months to improve your chances. Obviously you can review algorithms, practice questions and buff up you knowledge to give you a slight advantage, but if you really want to level up and give yourself the best chance at landing the type of jobs you want, you need to start at least 6 months in advance.</description>
+    </item>
+    
+  </channel>
+</rss>

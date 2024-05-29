@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Meta-strategies for Software Development | An Hour A Day</title>
+<meta name="keywords" content="Sotware Engineering, Career, 5 Year Recap">
+<meta name="description" content="A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/career_5_years/meta_strategy/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Meta-strategies for Software Development" />
+<meta property="og:description" content="A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/career_5_years/meta_strategy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-12T12:00:00+00:00" />
+<meta property="article:modified_time" content="2023-09-12T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Meta-strategies for Software Development"/>
+<meta name="twitter:description" content="A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Meta-strategies for Software Development",
+      "item": "https://philliams.github.io/posts/career_5_years/meta_strategy/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Meta-strategies for Software Development",
+  "name": "Meta-strategies for Software Development",
+  "description": "A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:",
+  "keywords": [
+    "Sotware Engineering", "Career", "5 Year Recap"
+  ],
+  "articleBody": "A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:\nWin conditions Lose conditions Tempo Scaling Variance Risk Win and Lose conditions When planning software projects, win and lose conditions are key. The basic idea is that:\nWin conditions are conditions, that if met, means the project has succeeded\nLose conditions are conditions, that if met, mean the project has failed\nAn example of a win conditions might: be delivering a certain feature by a certain date, meeting all the requirements, or improving performance by X%.\nAn example of a lose conditions might be: failing to deliver a certain feature by the deadline, failing to meet Service Level Agreements (SLAs), or missing some requirements.\nWhen making decisions about designs, architecture, tech stacks, or development plans, you need to make sure that the option chosen will satisfy your win conditions while avoiding your lose conditions. If you only have 100mb of data, choosing a complex big-data tool is the wrong approach, because it increases your chances of hitting a lose condition (missing deadlines) without contributing to your win conditions.\nAdditionally, it is important to note that none of the example win or lose conditions mention anything about code quality. Code quality is a tool for meeting win conditions and avoiding lose conditions. Poor code quality can mean that the software is not ready to be released on time, while good code quality may mean that new features are added on time and under budget. On the other hand, extremely high quality code delivered in 5 years does not help you if you need to meet a deadline in 6 months. Code quality, performance, scalability, tech stacks and architectures need to be chosen with a clear purpose in line. In the next section, I will discuss the concepts of tempo and scaling, and how they can help make technical decisions.\nTempo and Scaling Tempo and scaling are two concepts borrowed from competitive video games that are extremely relevant to software development. Tempo and scaling are two independent attributes that are given to a given move or choice:\nA tempo move is a move that gives immediate value, and may be neutral or harmful in the long term\nA scaling move is a move that gives increasing value over time, but may be neutral or harmful in the short term\nAn example of a tempo move is to implement a quick, hacky fix that solves a bug today, but will introduce technical debt that will need to be cleaned up later. An example of a scaling move is taking a few weeks to refactor some code to improve maintainability over time. It is worth noting a well, that tempo and scaling are not mutually exclusive. A very good design may provide both tempo and scaling. Inversely, a bad design may provide neither tempo or scaling while taking up time and effort.\nThe concept of tempo and scaling is tightly coupled to the concept of win/lose conditions. Tempo and scaling can only be meaningfully discussed through the lens of specific objectives in time. In fact, you can imagine win conditions and lose conditions as set points spaced out in time. You need to balance scaling and tempo so that you are able to meet your short term obligations, while not putting yourself in a position where you are not able to meet your long-term obligations. For example, taking on technical today to meet an objective next week may make sense. On the other hand, taking on technical debt now to get started quickly may not make sense if the deadline is in a year.\nVariance and Risk The last two key concepts for meta-strategies are variance and risk:\nVariance describes how wide the range of plausible outcomes are. A strategy that is guaranteed to produce a given result is low-variance. A strategy that could produce many different outcomes is high-variance.\nRisk describes how likely a project is to fail. A project almost guaranteed to succeed is low-risk, while a project guaranteed to fail is high-risk.\nAdditionally, there are three main situations that a project can find itself in:\nDefault Win : a project that has a very high chance of succeeding for a given strategy Uncertain : a project that has an equal chance of failure and success for a given strategy Default Lose : a project that has a very high chance of failing for a given strategy When evaluating strategies, we often lack the language and framework for properly discussing risks. Often, when people say that something is risky, they are really saying that the outcome is uncertain (high-variance). However, high-variance is not always a bad thing. For example, if your project is in a default-lose state, it may be worth adopting a high-variance strategy to get you into the uncertain state. This may seem unintuitive, but if you have a 95% chance of failure for a low-variance strategy, or a 50/50 chance of success or failure, then it is worth taking a gamble. You still have a 50% chance of losing, but your chances of success increased by 10x from 5% to 50%. Through this lens, we can reason about various strategies in a more analytic way, and can discover unintuitive strategies that are very good when explored thorougly.\nOne-way doors An interesting concept is the “One-Way Door”. A one-way door is a decision that once made, is impossible or very expensive to undo. On the other hand, a two-way door is a decision that can easily be reverted down the line. One-way doors should be deferred to the last possible moment. If you implement a one-way door too early, you take on complexity now and open yourself up to very painful technical issues if the requirements were to change in the meantime. Additionally, if you are forced to implement a one-way door, then you likely have a very compelling reason to do so.\nIn other words, two-way doors decision can be made more lightly and eagerly, while one-way door decisions should be deferred to the last possible moment and should be considered much more carefully.\nMy Meta-Strategy Now that we have all the concepts for a meta-strategy, we can discuss my particular meta-strategy:\nLay out all the win conditions and lose conditions before any planning or design is done Collect a wide variety of different solutions Evaluate which solution most closely matches the win conditions missing win conditions or hitting lose conditions is bad wasted effort or extra complexity beyond win conditions is bad if the strategy is default-win, high-variance is bad, low-variance is good -\u003e risk is low, don’t gamble if the strategy is default-lose, low-variance is bad, high-variance is good -\u003e risk is high, gamble for chance of success Once a tentative solution is identified break down solution into implementation effort identify intermediate milestones that need to be met identify the minimum amount of tempo needed to achieve intermediate and final milestones any extra tempo beyond the minimum needed amount is bad any un-allocated capacity is allocated to scaling more un-allocated capacity is good, as it allows for more scaling effort if solution turns out to not be suitable, revisit other solutions Once a final solution is chosen break down implementation work needed plan immediate implementation needed for short-term deliverables plan scaling work for any unused capacity clean up technical debt improve performance improve tooling improve testing etc. if possible, implement scaling effort early to enable later tempo work After implementation is done, identify pain points to be resolved via future scaling work. Case Study To put the meta-strategy into context, let’s take a look at a case study that reflects a common situation that many projects find themselves in:\nContext Company A is implementing product Z. However, the project is way behind schedule and is currently not meeting the requirements. We need to pick a strategy to salvage the project. We are dealing with a legacy codebase that is unreliable, performs poorly and is poorly tested.\nThe current state completes a simple Machine Learning calculation in 3 days and has had several severe outages.\nWin conditions To achieve success, we need to implement functionality to perform an improved Machine Learning calculation in under 12 hours on a large volume of data. The deadline is in 3 months.\nLose conditions To avoid failure, the project needs to be free of any major bugs, needs to be deployable by the professional services team, and must be able to handle real-world loads without failing.\nStrategies Strategy 1 : This strategy is to follow the current development plan and to incrementally remedy the situation\nVariance : Low Risk : Very High Tempo : Low Scaling : Low Prognosis : 95% failure Strategy 2 : This strategy is to completely throw the old code away and re-write from scratch with new technologies\nVariance : Very high Risk : High Tempo : Moderate Scaling : Very High Prognosis : 50% failure Strategy 3 : This strategy is to add some testing and maintain the outer API, but to refactor the internals chunk by chunk\nVariance : Moderate Risk : Moderate Tempo : High Scaling : Moderate-High Prognosis : 25% failure Strategy Chosen In this case, we want to choose strategy #3. Strategy #1 is not suitable, since we are almost guaranteed to fail. Strategy #2 is an improvement over #1, since we have a much higher chance of success. However, with strategy #2 we are taking unneccesary risk. #3 is thus ideal, since we have a high chance of success without taking unneccesary risks.\nImplementation Breakdown We have 3 large “chunks” of internal logic to replace. Each chunk will take ~3 weeks to update. Additionally, we need a month to re-write all of tests. However, if we dedicate 2 weeks at the start of the development to set up the tooling, we can cut the work down to ~2 weeks per chunk and ~3 weeks for the tests. The timeline would then look like:\nweeks 0-2 : set up tooling weeks 2-5 : add new tests weeks 5-7 : refactor chunk #1 weeks 7-9 : refactor chunk #2 weeks 9-11 : refactor chunk #3 week 12: finalize work for deadline. Thus, we have gone from a project that was way behind and most likely to fail, to a project that delivers the requirements (i.e. performance boost and improved ML logic) on time while improving the overall code quality. We met the win conditions, avoided the lose conditions, avoided unneccesary effort and were able to allocate some effort to improving developer experience.\n",
+  "wordCount" : "1838",
+  "inLanguage": "en",
+  "datePublished": "2023-09-12T12:00:00Z",
+  "dateModified": "2023-09-12T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/career_5_years/meta_strategy/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Meta-strategies for Software Development
+    </h1>
+    <div class="post-meta"><span title='2023-09-12 12:00:00 +0000 UTC'>September 12, 2023</span>&nbsp;·&nbsp;9 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:</p>
+<ol>
+<li>Win conditions</li>
+<li>Lose conditions</li>
+<li>Tempo</li>
+<li>Scaling</li>
+<li>Variance</li>
+<li>Risk</li>
+</ol>
+<h2 id="win-and-lose-conditions">Win and Lose conditions<a hidden class="anchor" aria-hidden="true" href="#win-and-lose-conditions">#</a></h2>
+<p>When planning software projects, win and lose conditions are key. The basic idea is that:</p>
+<blockquote>
+<p>Win conditions are conditions, that if met, means the project has succeeded</p>
+</blockquote>
+<blockquote>
+<p>Lose conditions are conditions, that if met, mean the project has failed</p>
+</blockquote>
+<p>An example of a win conditions might: be delivering a certain feature by a certain date, meeting all the requirements, or improving performance by X%.</p>
+<p>An example of a lose conditions might be: failing to deliver a certain feature by the deadline, failing to meet Service Level Agreements (SLAs), or missing some requirements.</p>
+<p>When making decisions about designs, architecture, tech stacks, or development plans, you need to make sure that the option chosen will satisfy your win conditions while avoiding your lose conditions. If you only have 100mb of data, choosing a complex big-data tool is the wrong approach, because it increases your chances of hitting a lose condition (missing deadlines) without contributing to your win conditions.</p>
+<p>Additionally, it is important to note that none of the example win or lose conditions mention anything about code quality. Code quality is a tool for meeting win conditions and avoiding lose conditions. Poor code quality can mean that the software is not ready to be released on time, while good code quality may mean that new features are added on time and under budget. On the other hand, extremely high quality code delivered in 5 years does not help you if you need to meet a deadline in 6 months. Code quality, performance, scalability, tech stacks and architectures need to be chosen with a clear purpose in line. In the next section, I will discuss the concepts of tempo and scaling, and how they can help make technical decisions.</p>
+<h2 id="tempo-and-scaling">Tempo and Scaling<a hidden class="anchor" aria-hidden="true" href="#tempo-and-scaling">#</a></h2>
+<p>Tempo and scaling are two concepts borrowed from competitive video games that are extremely relevant to software development. Tempo and scaling are two independent attributes that are given to a given move or choice:</p>
+<blockquote>
+<p>A tempo move is a move that gives immediate value, and may be neutral or harmful in the long term</p>
+</blockquote>
+<blockquote>
+<p>A scaling move is a move that gives increasing value over time, but may be neutral or harmful in the short term</p>
+</blockquote>
+<p>An example of a tempo move is to implement a quick, hacky fix that solves a bug today, but will introduce technical debt that will need to be cleaned up later. An example of a scaling move is taking a few weeks to refactor some code to improve maintainability over time. It is worth noting a well, that tempo and scaling are not mutually exclusive. A very good design may provide both tempo and scaling. Inversely, a bad design may provide neither tempo or scaling while taking up time and effort.</p>
+<p>The concept of tempo and scaling is tightly coupled to the concept of win/lose conditions. Tempo and scaling can only be meaningfully discussed through the lens of specific objectives in time. In fact, you can imagine win conditions and lose conditions as set points spaced out in time. You need to balance scaling and tempo so that you are able to meet your short term obligations, while not putting yourself in a position where you are not able to meet your long-term obligations. For example, taking on technical today to meet an objective next week may make sense. On the other hand, taking on technical debt now to get started quickly may not make sense if the deadline is in a year.</p>
+<h2 id="variance-and-risk">Variance and Risk<a hidden class="anchor" aria-hidden="true" href="#variance-and-risk">#</a></h2>
+<p>The last two key concepts for meta-strategies are variance and risk:</p>
+<blockquote>
+<p>Variance describes how wide the range of plausible outcomes are. A strategy that is guaranteed to produce a given result is low-variance. A strategy that could produce many different outcomes is high-variance.</p>
+</blockquote>
+<blockquote>
+<p>Risk describes how likely a project is to fail. A project almost guaranteed to succeed is low-risk, while a project guaranteed to fail is high-risk.</p>
+</blockquote>
+<p>Additionally, there are three main situations that a project can find itself in:</p>
+<ol>
+<li><strong>Default Win</strong> : a project that has a very high chance of succeeding for a given strategy</li>
+<li><strong>Uncertain</strong> : a project that has an equal chance of failure and success for a given strategy</li>
+<li><strong>Default Lose</strong> : a project that has a very high chance of failing for a given strategy</li>
+</ol>
+<p>When evaluating strategies, we often lack the language and framework for properly discussing risks. Often, when people say that something is risky, they are really saying that the outcome is uncertain (high-variance). However, high-variance is not always a bad thing. For example, if your project is in a default-lose state, it may be worth adopting a high-variance strategy to get you into the uncertain state. This may seem unintuitive, but if you have a 95% chance of failure for a low-variance strategy, or a 50/50 chance of success or failure, then it is worth taking a gamble. You still have a 50% chance of losing, but your chances of success increased by 10x from 5% to 50%. Through this lens, we can reason about various strategies in a more analytic way, and can discover unintuitive strategies that are very good when explored thorougly.</p>
+<h3 id="one-way-doors">One-way doors<a hidden class="anchor" aria-hidden="true" href="#one-way-doors">#</a></h3>
+<p>An interesting concept is the &ldquo;One-Way Door&rdquo;. A one-way door is a decision that once made, is impossible or very expensive to undo. On the other hand, a two-way door is a decision that can easily be reverted down the line. One-way doors should be deferred to the last possible moment. If you implement a one-way door too early, you take on complexity now and open yourself up to very painful technical issues if the requirements were to change in the meantime. Additionally, if you are forced to implement a one-way door, then you likely have a very compelling reason to do so.</p>
+<p>In other words, two-way doors decision can be made more lightly and eagerly, while one-way door decisions should be deferred to the last possible moment and should be considered much more carefully.</p>
+<h2 id="my-meta-strategy">My Meta-Strategy<a hidden class="anchor" aria-hidden="true" href="#my-meta-strategy">#</a></h2>
+<p>Now that we have all the concepts for a meta-strategy, we can discuss my particular meta-strategy:</p>
+<ol>
+<li>Lay out all the win conditions and lose conditions before any planning or design is done</li>
+<li>Collect a wide variety of different solutions</li>
+<li>Evaluate which solution most closely matches the win conditions
+<ul>
+<li>missing win conditions or hitting lose conditions is bad</li>
+<li>wasted effort or extra complexity beyond win conditions is bad</li>
+<li>if the strategy is default-win, high-variance is bad, low-variance is good -&gt; risk is low, don&rsquo;t gamble</li>
+<li>if the strategy is default-lose, low-variance is bad, high-variance is good -&gt; risk is high, gamble for chance of success</li>
+</ul>
+</li>
+<li>Once a tentative solution is identified
+<ul>
+<li>break down solution into implementation effort</li>
+<li>identify intermediate milestones that need to be met</li>
+<li>identify the minimum amount of tempo needed to achieve intermediate and final milestones</li>
+<li>any extra tempo beyond the minimum needed amount is bad</li>
+<li>any un-allocated capacity is allocated to scaling</li>
+<li>more un-allocated capacity is good, as it allows for more scaling effort</li>
+<li>if solution turns out to not be suitable, revisit other solutions</li>
+</ul>
+</li>
+<li>Once a final solution is chosen
+<ul>
+<li>break down implementation work needed</li>
+<li>plan immediate implementation needed for short-term deliverables</li>
+<li>plan scaling work for any unused capacity
+<ul>
+<li>clean up technical debt</li>
+<li>improve performance</li>
+<li>improve tooling</li>
+<li>improve testing</li>
+<li>etc.</li>
+</ul>
+</li>
+<li>if possible, implement scaling effort early to enable later tempo work</li>
+</ul>
+</li>
+<li>After implementation is done, identify pain points to be resolved via future scaling work.</li>
+</ol>
+<h2 id="case-study">Case Study<a hidden class="anchor" aria-hidden="true" href="#case-study">#</a></h2>
+<p>To put the meta-strategy into context, let&rsquo;s take a look at a case study that reflects a common situation that many projects find themselves in:</p>
+<h4 id="context">Context<a hidden class="anchor" aria-hidden="true" href="#context">#</a></h4>
+<p>Company A is implementing product Z. However, the project is way behind schedule and is currently not meeting the requirements. We need to pick a strategy to salvage the project. We are dealing with a legacy codebase that is unreliable, performs poorly and is poorly tested.</p>
+<p>The current state completes a simple Machine Learning calculation in 3 days and has had several severe outages.</p>
+<h4 id="win-conditions">Win conditions<a hidden class="anchor" aria-hidden="true" href="#win-conditions">#</a></h4>
+<p>To achieve success, we need to implement functionality to perform an improved Machine Learning calculation in under 12 hours on a large volume of data. The deadline is in 3 months.</p>
+<h4 id="lose-conditions">Lose conditions<a hidden class="anchor" aria-hidden="true" href="#lose-conditions">#</a></h4>
+<p>To avoid failure, the project needs to be free of any major bugs, needs to be deployable by the professional services team, and must be able to handle real-world loads without failing.</p>
+<h4 id="strategies">Strategies<a hidden class="anchor" aria-hidden="true" href="#strategies">#</a></h4>
+<p><strong>Strategy 1</strong> : This strategy is to follow the current development plan and to incrementally remedy the situation</p>
+<ul>
+<li>Variance : Low</li>
+<li>Risk : Very High</li>
+<li>Tempo : Low</li>
+<li>Scaling : Low</li>
+<li>Prognosis : 95% failure</li>
+</ul>
+<p><strong>Strategy 2</strong> : This strategy is to completely throw the old code away and re-write from scratch with new technologies</p>
+<ul>
+<li>Variance : Very high</li>
+<li>Risk : High</li>
+<li>Tempo : Moderate</li>
+<li>Scaling : Very High</li>
+<li>Prognosis : 50% failure</li>
+</ul>
+<p><strong>Strategy 3</strong> : This strategy is to add some testing and maintain the outer API, but to refactor the internals chunk by chunk</p>
+<ul>
+<li>Variance : Moderate</li>
+<li>Risk : Moderate</li>
+<li>Tempo : High</li>
+<li>Scaling : Moderate-High</li>
+<li>Prognosis : 25% failure</li>
+</ul>
+<h4 id="strategy-chosen">Strategy Chosen<a hidden class="anchor" aria-hidden="true" href="#strategy-chosen">#</a></h4>
+<p>In this case, we want to choose strategy #3. Strategy #1 is not suitable, since we are almost guaranteed to fail. Strategy #2 is an improvement over #1, since we have a much higher chance of success. However, with strategy #2 we are taking unneccesary risk. #3 is thus ideal, since we have a high chance of success without taking unneccesary risks.</p>
+<h4 id="implementation-breakdown">Implementation Breakdown<a hidden class="anchor" aria-hidden="true" href="#implementation-breakdown">#</a></h4>
+<p>We have 3 large &ldquo;chunks&rdquo; of internal logic to replace. Each chunk will take ~3 weeks to update. Additionally, we need a month to re-write all of tests. However, if we dedicate 2 weeks at the start of the development to set up the tooling, we can cut the work down to ~2 weeks per chunk and ~3 weeks for the tests. The timeline would then look like:</p>
+<ul>
+<li>weeks 0-2 : set up tooling</li>
+<li>weeks 2-5 : add new tests</li>
+<li>weeks 5-7 : refactor chunk #1</li>
+<li>weeks 7-9 : refactor chunk #2</li>
+<li>weeks 9-11 : refactor chunk #3</li>
+<li>week 12: finalize work for deadline.</li>
+</ul>
+<p>Thus, we have gone from a project that was way behind and most likely to fail, to a project that delivers the requirements (i.e. performance boost and improved ML logic) on time while improving the overall code quality. We met the win conditions, avoided the lose conditions, avoided unneccesary effort and were able to allocate some effort to improving developer experience.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/sotware-engineering/">Sotware Engineering</a></li>
+      <li><a href="https://philliams.github.io/tags/career/">Career</a></li>
+      <li><a href="https://philliams.github.io/tags/5-year-recap/">5 Year Recap</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

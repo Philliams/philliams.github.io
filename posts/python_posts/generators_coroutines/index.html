@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Generators and Coroutines in Python | An Hour A Day</title>
+<meta name="keywords" content="Python, Software Engineering">
+<meta name="description" content="Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.
+Generators Generators in Python are objects that contain some sort of internal state, and know how to produce the &ldquo;next&rdquo; value in a sequence.
+Before we talk about what generators are, we should talk about what problems they can help solve!">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/python_posts/generators_coroutines/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Generators and Coroutines in Python" />
+<meta property="og:description" content="Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.
+Generators Generators in Python are objects that contain some sort of internal state, and know how to produce the &ldquo;next&rdquo; value in a sequence.
+Before we talk about what generators are, we should talk about what problems they can help solve!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/python_posts/generators_coroutines/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-10T12:00:00+00:00" />
+<meta property="article:modified_time" content="2022-05-10T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Generators and Coroutines in Python"/>
+<meta name="twitter:description" content="Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.
+Generators Generators in Python are objects that contain some sort of internal state, and know how to produce the &ldquo;next&rdquo; value in a sequence.
+Before we talk about what generators are, we should talk about what problems they can help solve!"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Generators and Coroutines in Python",
+      "item": "https://philliams.github.io/posts/python_posts/generators_coroutines/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Generators and Coroutines in Python",
+  "name": "Generators and Coroutines in Python",
+  "description": "Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.\nGenerators Generators in Python are objects that contain some sort of internal state, and know how to produce the \u0026ldquo;next\u0026rdquo; value in a sequence.\nBefore we talk about what generators are, we should talk about what problems they can help solve!",
+  "keywords": [
+    "Python", "Software Engineering"
+  ],
+  "articleBody": "Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.\nGenerators Generators in Python are objects that contain some sort of internal state, and know how to produce the “next” value in a sequence.\nBefore we talk about what generators are, we should talk about what problems they can help solve! By using generators you can:\nIterating over data structures in a way that decouples your logic from the data structure Generators can be used to replace callbacks with iteration, you can perform work, and yield a value whenever you want to report back to the caller Processing data in small chunks so that only a small portion of the data is ever loaded into memory (Lazy evaluation) Generators provide many methods, but the ones that we will focus on are __iter__ and __next__. __next__ allows you to call value = next(some_generator); this call will tell the generator to update it’s internal state and give you the next value. __iter__ allows your generator to implement the Iterator interface such that you can iterate over your generator using the element for element in some_generator syntax (usually, if you already implement __next__ your __iter__ will just return self, otherwise you can have an object create a new iterable object and return that).\nGenerators using classes Let’s define a simple program that will use a generator to produce Fibonacci numbers. In this example, we will implement the generator class ourselves.\nclass FibonacciGenerator: def __init__(self, n1=0, n2=1, max_iters=100): self.max_iters = max_iters self.current_iter = 0 self.n1 = n1 self.n2 = n2 def __next__(self): if self.current_iter \u003c self.max_iters: self.current_iter += 1 sum_ = self.n1 + self.n2 self.n1 = self.n2 self.n2 = sum_ return sum_ else: raise StopIteration def __iter__(self): return self In the __init__, we set the current number of iteration, the max number of iterations and the first two Fibonacci numbers n1 and n2. In the __next__ method, we check if we are under the maximum number of iterations and if so compute the next Fibonacci number, update n1 and n2 and then return the next Fibonacci number. __iter__ is very simple and we can just return the object since the FibonacciGenerator class implements __next__.\nWe can then use this class to easily compute and iterate over Fibonacci numbers. We can exhaust all of the numbers by invoking [e for e in gen]. If we try to get another value after the generator has been used up, an exception will be raised.\ngen = FibonacciGenerator(max_iters=10) nums = [e for e in gen] print(nums) try: v = next(gen) except Exception as e: print(\"failed\") Generators using the Yield keyword As seen above, we can implement a generator manually using a class. However, this requires a lot of boilerplate and somewhat obfuscates what the generator is actually doing when the internal state is more complex than a few integers.\nHowever, Python can generate generator instance for us directly from function code when we use the yield keyword! Let’s implement our Fibonacci number generator using yield.\ndef fibonacci_generator(n1=0, n2=1, max_iters=100): for i in range(max_iters): sum_ = n1 + n2 n1 = n2 n2 = sum_ yield sum_ Looking at the code above, it is already much simpler and clearer than the class based example. When using yield in a function like this, Python will automatically turn the function into a generator instance, while the yield keyword will act somewhat like a return statement. More specifically, when next(generator) is called, the function will run as expected until it encounters the yield keyword, the value that was yielded is returned to the caller, and the function pauses until the called invoked next(generator) again.\nWe can examine the generator and we see that the behavior is identical to our class based example:\ngen = fibonacci_generator(max_iters=10) nums = [e for e in gen] print(gen) print(nums) try: v = next(gen) except Exception as e: print(\"failed\") Example of using a generator to process data structures Now that we’ve seen the details of implementing and invoking generators, we can take a look at an example of implementing a generator to traverse a data structure, while implementing the logic separately.\nLet’s say that we have some data stored in a binary tree. Any logic that we want to perform on the tree would involve implementing our “business” logic and our traversal logic in the same place. Alternatively, we can implement a generator that will traverse the tree node by node, and yield the value at each step. We can them implement sum, min and max operations efficiently, without needing access to the internals of the traversal.\nclass Node: def __init__(self, val, l, r): self.val = val self.l = l self.r = r def traverse_tree(root): yield root.val if root.l is not None: for e in traverse_tree(root.l): yield e if root.r is not None: for e in traverse_tree(root.r): yield e if __name__ == '__main__': a = Node(1, None, None) b = Node(2, None, None) c = Node(4, None, None) d = Node(8, None, None) e = Node(-5, None, None) a.l = b a.r = c b.l = d c.l = e all_vals = [e for e in traverse_tree(a)] print(all_vals) max_ = a.val min_ = a.val for val in traverse_tree(a): if val \u003e max_: max_ = val if val \u003c min_: min_ = val print(max_, min_) Coroutines Coroutines share a lot of similarities with generators, but they provide a few extra methods and a bit of a difference in how the yield keyword is used. In essence, coroutines consume values sent by the caller, instead of returning values to the caller. In terms of technical details, the main differences are:\nCoroutines use send(val) instead of __next__(). The coroutine will then have access to the value sent. Coroutines need to be “primed”. That means you need to initialize it properly before you can start using it (this will raise an error) Like generators, coroutines are suspended on yield keyword, This is can lead to unintuitive behavior if not expected Let’s implement a simple coroutine that accepts values and prints them. The key change here is that we will access the value sent by the caller with val = (yield).\ndef simple_coroutine(max_iters=5): for i in range(max_iters): print(f'before yield i = {i}') val = (yield) print(f\"after yield, val = {val}, i = {i}\") To use the coroutine, we need to “prime” it by either calling coroutine.send(None) or next(coroutine) (these two statements are equivalent). Once the coroutine has been primed, we can iterate over it in the same manner as a generator, with the difference that coroutine.send(val) is used in place of next(generator). Coroutines will even fail the same way as generators if exhausted.\ncoroutine = simple_coroutine() # need to prime the coroutine print('before priming') next(coroutine) print('before send') coroutine.send('Dummy val a') print('main thread after a') coroutine.send('Dummy val b') print('main thread after b') coroutine.send('Dummy val c') print('main thread after c') coroutine.send('Dummy val d') try: coroutine.send('Dummy val e') except: print(\"failed\") The Yield keyword The yield keyword seems to behave unintuitively, but we can break down what exactly it does to understand the underlying model.\nFunction will run until it encounters yield keyword. The function is then suspended If you yield value, then the value is returned to the caller of send(…) or next() The function will then wait until the next time send(…) or next() is called. If a value is sent, you can access it by value = (yield) Additionally, We can combine generator and coroutine syntax into send_val = yield return_val. This implies that we can have objects which will be both generators and coroutines.\nCo-Generators I like to call objects that are both generators and coroutines, “Co-Generators” as it helps disambiguate how the object should be interacted with. We can now implement a co-generator which will both accept and yield values.\nWhen dealing with co-generators, it is key to understand the statement sent_val = yield return_val executes in two distinct stages. Upon the next(cogenerator) or cogenerator.send(None), the function will execute up until the yield val statement, which will immediately return the value to the caller. The function will then be suspended until the first call of cogenerator.send(some_val), which will take the value, pass it into the function and will be assigned to sent_val. This means that you can have some external code run after yield val but before val = (yield)!\nBelow we can see an example of a co-generator that sends and yields values, with several print statements that will execute between both steps of the yield evaluation.\ndef complex_cogenerator(max_iters=5): print('start of cogenerator') for i in range(max_iters): print(f'start of loop, i={i}') val = yield i print(f'end of loop, i={i}, val={val}') print('end of cogenerator') yield None if __name__ == '__main__': print('start of main') co_gen = complex_cogenerator() print('after cogenerator creation') v = next(co_gen) print(f'after cogenerator priming, v={v}') while v is not None: print(f'main thread before send, v={v}') v = co_gen.send('Dummy val a') print(f'main thread after send, v={v}') When running this example, we will note a few things:\nno logic runs when complex_cogenerator() is called. In fact this function behaves like an initializer, rather than an actual function. The co-generator needs to be primed before it can be used. But after the priming, we can iterate over the co-generator by using a while loop. The order of execution of the print statements is non-obvious, but makes sense when accounting for the two-step execution of the a = yield b statement. Conclusion In this article, we took a look at generator classes, generators using yield, coroutines using yield and how to combine generators and coroutines into co-generators.\nHopefully you will be able to leverage this knowledge to build better abstractions around you data structures for more flexible, robust and performant code.\n",
+  "wordCount" : "1635",
+  "inLanguage": "en",
+  "datePublished": "2022-05-10T12:00:00Z",
+  "dateModified": "2022-05-10T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/python_posts/generators_coroutines/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Generators and Coroutines in Python
+    </h1>
+    <div class="post-meta"><span title='2022-05-10 12:00:00 +0000 UTC'>May 10, 2022</span>&nbsp;·&nbsp;8 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.</p>
+<h2 id="generators">Generators<a hidden class="anchor" aria-hidden="true" href="#generators">#</a></h2>
+<p>Generators in Python are objects that contain some sort of internal state, and know how to produce the &ldquo;next&rdquo; value in a sequence.</p>
+<p>Before we talk about what generators are, we should talk about what problems they can help solve! By using generators you can:</p>
+<ol>
+<li>Iterating over data structures in a way that decouples your logic from the data structure</li>
+<li>Generators can be used to replace callbacks with iteration, you can perform work, and yield a value whenever you want to report back to the caller</li>
+<li>Processing data in small chunks so that only a small portion of the data is ever loaded into memory (Lazy evaluation)</li>
+</ol>
+<p>Generators provide many methods, but the ones that we will focus on are <code>__iter__</code> and <code>__next__</code>. <code>__next__</code> allows you to call <code>value = next(some_generator);</code> this call will tell the generator to update it&rsquo;s internal state and give you the next value. <code>__iter__</code> allows your generator to implement the Iterator interface such that you can iterate over your generator using the <code>element for element in some_generator</code> syntax (usually, if you already implement <code>__next__</code> your <code>__iter__</code> will just return <code>self</code>, otherwise you can have an object create a new iterable object and return that).</p>
+<h4 id="generators-using-classes">Generators using classes<a hidden class="anchor" aria-hidden="true" href="#generators-using-classes">#</a></h4>
+<p>Let&rsquo;s define a simple program that will use a generator to produce Fibonacci numbers. In this example, we will implement the generator class ourselves.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FibonacciGenerator</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, n1<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, n2<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>max_iters <span style="color:#f92672">=</span> max_iters
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>current_iter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n1 <span style="color:#f92672">=</span> n1
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n2 <span style="color:#f92672">=</span> n2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __next__(self):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>current_iter <span style="color:#f92672">&lt;</span> self<span style="color:#f92672">.</span>max_iters:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>current_iter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            sum_ <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>n1 <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>n2
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>n1 <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>n2
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>n2 <span style="color:#f92672">=</span> sum_
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> sum_
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">StopIteration</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __iter__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self
+</span></span></code></pre></div><p>In the <code>__init__</code>, we set the current number of iteration, the max number of iterations and the first two Fibonacci numbers <code>n1</code> and <code>n2</code>. In the <code>__next__</code> method, we check if we are under the maximum number of iterations and if so compute the next Fibonacci number, update <code>n1</code> and <code>n2</code> and then return the next Fibonacci number. <code>__iter__</code> is very simple and we can just return the object since the <code>FibonacciGenerator</code> class implements <code>__next__</code>.</p>
+<p>We can then use this class to easily compute and iterate over Fibonacci numbers. We can exhaust all of the numbers by invoking <code>[e for e in gen]</code>. If we try to get another value after the generator has been used up, an exception will be raised.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>gen <span style="color:#f92672">=</span> FibonacciGenerator(max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>nums <span style="color:#f92672">=</span> [e <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> gen]
+</span></span><span style="display:flex;"><span>print(nums)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    v <span style="color:#f92672">=</span> next(gen)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;failed&#34;</span>)
+</span></span></code></pre></div><h4 id="generators-using-the-yield-keyword">Generators using the Yield keyword<a hidden class="anchor" aria-hidden="true" href="#generators-using-the-yield-keyword">#</a></h4>
+<p>As seen above, we can implement a generator manually using a class. However, this requires a lot of boilerplate and somewhat obfuscates what the generator is actually doing when the internal state is more complex than a few integers.</p>
+<p>However, Python can generate generator instance for us directly from function code when we use the <code>yield</code> keyword! Let&rsquo;s implement our Fibonacci number generator using <code>yield</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fibonacci_generator</span>(n1<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, n2<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(max_iters):
+</span></span><span style="display:flex;"><span>        sum_ <span style="color:#f92672">=</span> n1 <span style="color:#f92672">+</span> n2
+</span></span><span style="display:flex;"><span>        n1 <span style="color:#f92672">=</span> n2
+</span></span><span style="display:flex;"><span>        n2 <span style="color:#f92672">=</span> sum_
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> sum_
+</span></span></code></pre></div><p>Looking at the code above, it is already much simpler and clearer than the class based example. When using <code>yield</code> in a function like this, Python will automatically turn the function into a generator instance, while the <code>yield</code> keyword will act somewhat like a return statement. More specifically, when <code>next(generator)</code> is called, the function will run as expected until it encounters the <code>yield</code> keyword, the value that was yielded is returned to the caller, and the function pauses until the called invoked <code>next(generator)</code> again.</p>
+<p>We can examine the generator and we see that the behavior is identical to our class based example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>gen <span style="color:#f92672">=</span> fibonacci_generator(max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>nums <span style="color:#f92672">=</span> [e <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> gen]
+</span></span><span style="display:flex;"><span>print(gen)
+</span></span><span style="display:flex;"><span>print(nums)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    v <span style="color:#f92672">=</span> next(gen)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;failed&#34;</span>)
+</span></span></code></pre></div><h4 id="example-of-using-a-generator-to-process-data-structures">Example of using a generator to process data structures<a hidden class="anchor" aria-hidden="true" href="#example-of-using-a-generator-to-process-data-structures">#</a></h4>
+<p>Now that we&rsquo;ve seen the details of implementing and invoking generators, we can take a look at an example of implementing a generator to traverse a data structure, while implementing the logic separately.</p>
+<p>Let&rsquo;s say that we have some data stored in a binary tree. Any logic that we want to perform on the tree would involve implementing our &ldquo;business&rdquo; logic and our traversal logic in the same place. Alternatively, we can implement a generator that will traverse the tree node by node, and yield the value at each step. We can them implement sum, min and max operations efficiently, without needing access to the internals of the traversal.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, val, l, r):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>val <span style="color:#f92672">=</span> val
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>l <span style="color:#f92672">=</span> l
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>r <span style="color:#f92672">=</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">traverse_tree</span>(root):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> root<span style="color:#f92672">.</span>val
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> root<span style="color:#f92672">.</span>l <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> traverse_tree(root<span style="color:#f92672">.</span>l):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">yield</span> e
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> root<span style="color:#f92672">.</span>r <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> traverse_tree(root<span style="color:#f92672">.</span>r):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">yield</span> e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> Node(<span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> Node(<span style="color:#ae81ff">2</span>, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    c <span style="color:#f92672">=</span> Node(<span style="color:#ae81ff">4</span>, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    d <span style="color:#f92672">=</span> Node(<span style="color:#ae81ff">8</span>, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>    e <span style="color:#f92672">=</span> Node(<span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, <span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    a<span style="color:#f92672">.</span>l <span style="color:#f92672">=</span> b
+</span></span><span style="display:flex;"><span>    a<span style="color:#f92672">.</span>r <span style="color:#f92672">=</span> c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    b<span style="color:#f92672">.</span>l <span style="color:#f92672">=</span> d
+</span></span><span style="display:flex;"><span>    c<span style="color:#f92672">.</span>l <span style="color:#f92672">=</span> e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    all_vals <span style="color:#f92672">=</span> [e <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> traverse_tree(a)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(all_vals)
+</span></span><span style="display:flex;"><span>    max_ <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span>val
+</span></span><span style="display:flex;"><span>    min_ <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span>val
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> val <span style="color:#f92672">in</span> traverse_tree(a):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> val <span style="color:#f92672">&gt;</span> max_:
+</span></span><span style="display:flex;"><span>            max_ <span style="color:#f92672">=</span> val
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> val <span style="color:#f92672">&lt;</span> min_:
+</span></span><span style="display:flex;"><span>            min_ <span style="color:#f92672">=</span> val
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(max_, min_)
+</span></span></code></pre></div><h2 id="coroutines">Coroutines<a hidden class="anchor" aria-hidden="true" href="#coroutines">#</a></h2>
+<p>Coroutines share a lot of similarities with generators, but they provide a few extra methods and a bit of a difference in how the <code>yield</code> keyword is used. In essence, coroutines consume values sent by the caller, instead of returning values to the caller. In terms of technical details, the main differences are:</p>
+<ol>
+<li>Coroutines use <code>send(val)</code> instead of <code>__next__()</code>. The coroutine will then have access to the value sent.</li>
+<li>Coroutines need to be “primed”. That means you need to initialize it properly before you can start using it (this will raise an error)</li>
+<li>Like generators, coroutines are suspended on <code>yield</code> keyword, This is can lead to unintuitive behavior if not expected</li>
+</ol>
+<p>Let&rsquo;s implement a simple coroutine that accepts values and prints them. The key change here is that we will access the value sent by the caller with <code>val = (yield)</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">simple_coroutine</span>(max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(max_iters):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;before yield i = </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        val <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;after yield, val = </span><span style="color:#e6db74">{</span>val<span style="color:#e6db74">}</span><span style="color:#e6db74">, i = </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>To use the coroutine, we need to &ldquo;prime&rdquo; it by either calling <code>coroutine.send(None)</code> or <code>next(coroutine)</code> (these two statements are equivalent). Once the coroutine has been primed, we can iterate over it in the same manner as a generator, with the difference that <code>coroutine.send(val)</code> is used in place of <code>next(generator)</code>. Coroutines will even fail the same way as generators if exhausted.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>coroutine <span style="color:#f92672">=</span> simple_coroutine()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># need to prime the coroutine</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;before priming&#39;</span>)
+</span></span><span style="display:flex;"><span>next(coroutine)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;before send&#39;</span>)
+</span></span><span style="display:flex;"><span>coroutine<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val a&#39;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;main thread after a&#39;</span>)
+</span></span><span style="display:flex;"><span>coroutine<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val b&#39;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;main thread after b&#39;</span>)
+</span></span><span style="display:flex;"><span>coroutine<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val c&#39;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;main thread after c&#39;</span>)
+</span></span><span style="display:flex;"><span>coroutine<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val d&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    coroutine<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val e&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;failed&#34;</span>)
+</span></span></code></pre></div><h2 id="the-yield-keyword">The Yield keyword<a hidden class="anchor" aria-hidden="true" href="#the-yield-keyword">#</a></h2>
+<p>The yield keyword seems to behave unintuitively, but we can break down what exactly it does to understand the underlying model.</p>
+<ol>
+<li>Function will run until it encounters <code>yield</code> keyword. The function is then suspended</li>
+<li>If you <code>yield value</code>, then the value is returned to the caller of <code>send(…)</code> or <code>next()</code></li>
+<li>The function will then wait until the next time <code>send(…)</code> or <code>next()</code> is called. If a value is sent, you can access it by <code>value = (yield)</code></li>
+</ol>
+<p>Additionally, We can combine generator and coroutine syntax into <code>send_val = yield return_val</code>. This implies that we can have objects which will be both generators and coroutines.</p>
+<h2 id="co-generators">Co-Generators<a hidden class="anchor" aria-hidden="true" href="#co-generators">#</a></h2>
+<p>I like to call objects that are both generators and coroutines, &ldquo;Co-Generators&rdquo; as it helps disambiguate how the object should be interacted with. We can now implement a co-generator which will both accept and yield values.</p>
+<p>When dealing with co-generators, it is key to understand the statement <code>sent_val = yield return_val</code> executes in two distinct stages. Upon the <code>next(cogenerator)</code> or <code>cogenerator.send(None)</code>, the function will execute up until the <code>yield val</code> statement, which will immediately return the value to the caller. The function will then be suspended until the first call of <code>cogenerator.send(some_val)</code>, which will take the value, pass it into the function and will be assigned to <code>sent_val</code>. This means that you can have some external code run after <code>yield val</code> but before <code>val = (yield)</code>!</p>
+<p>Below we can see an example of a co-generator that sends and yields values, with several print statements that will execute between both steps of the yield evaluation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">complex_cogenerator</span>(max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;start of cogenerator&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(max_iters):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;start of loop, i=</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        val <span style="color:#f92672">=</span> <span style="color:#66d9ef">yield</span> i
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;end of loop, i=</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">, val=</span><span style="color:#e6db74">{</span>val<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;end of cogenerator&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;start of main&#39;</span>)
+</span></span><span style="display:flex;"><span>    co_gen <span style="color:#f92672">=</span> complex_cogenerator()
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;after cogenerator creation&#39;</span>)
+</span></span><span style="display:flex;"><span>    v <span style="color:#f92672">=</span> next(co_gen)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;after cogenerator priming, v=</span><span style="color:#e6db74">{</span>v<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> v <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;main thread before send, v=</span><span style="color:#e6db74">{</span>v<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        v <span style="color:#f92672">=</span> co_gen<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;Dummy val a&#39;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;main thread after send, v=</span><span style="color:#e6db74">{</span>v<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span></code></pre></div><p>When running this example, we will note a few things:</p>
+<ol>
+<li>no logic runs when <code>complex_cogenerator()</code> is called. In fact this function behaves like an initializer, rather than an actual function.</li>
+<li>The co-generator needs to be primed before it can be used. But after the priming, we can iterate over the co-generator by using a <code>while</code> loop.</li>
+<li>The order of execution of the print statements is non-obvious, but makes sense when accounting for the two-step execution of the <code>a = yield b</code> statement.</li>
+</ol>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>In this article, we took a look at generator classes, generators using <code>yield</code>, coroutines using <code>yield</code> and how to combine generators and coroutines into co-generators.</p>
+<p>Hopefully you will be able to leverage this knowledge to build better abstractions around you data structures for more flexible, robust and performant code.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/python/">Python</a></li>
+      <li><a href="https://philliams.github.io/tags/software-engineering/">Software Engineering</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

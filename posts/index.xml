@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on An Hour A Day</title>
+    <link>https://philliams.github.io/posts/</link>
+    <description>Recent content in Posts on An Hour A Day</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 24 May 2024 12:00:00 +0000</lastBuildDate><atom:link href="https://philliams.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>University College London - Part 1</title>
+      <link>https://philliams.github.io/posts/ucl/ucl_part_1/</link>
+      <pubDate>Fri, 24 May 2024 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/ucl/ucl_part_1/</guid>
+      <description>I wrote my last final this week, and so I wanted to take the opportunity to give a recap of my first two terms in Machine Learning at University College London.
+First weeks in London While courses started mid-October, I ended up moving to London sometime mid-September to give me some time to get settled in. Notably, I spent about 2 weeks reviewing “Mathematics for Machine Learning” by Deisenroth et al.</description>
+    </item>
+    
+    <item>
+      <title>University College London - Part 0</title>
+      <link>https://philliams.github.io/posts/career_5_years/recap/</link>
+      <pubDate>Sat, 09 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/recap/</guid>
+      <description>This September I am taking a leave from my job at $dayjob$ to pursue a Master&amp;rsquo;s of Science in Machine Learning at University College London. As I am opening a new chapter in my life, I want to reflect and write down some of the key themes from my first 5 years in industry.
+Background Context At $dayjob$, the bulk of my work was focused on time series forecasting for supply chain management.</description>
+    </item>
+    
+    <item>
+      <title>Meta-strategies for Software Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/meta_strategy/</link>
+      <pubDate>Tue, 12 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/meta_strategy/</guid>
+      <description>A lot of blog posts discuss the correct architecture or strategy for a given situation. In this post, we will not discuss strategies or architectures, but rather a meta-strategy. A meta-strategy is a strategy for choosing strategies. In the context of software development, a meta-strategy would not be a recommendation of a particular architecture or tech stack, but rather actionable advice on how to evaluate and choose architectures and implenentations. In this post, I will outline 6 core concepts and how they fit together to form my own personal meta-strategy:</description>
+    </item>
+    
+    <item>
+      <title>Effective Ownership in Software Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/ownership/</link>
+      <pubDate>Mon, 11 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/ownership/</guid>
+      <description>From low-level design to high-level project planning, ownership is central to succesfully enacting change. In this post, I will talk about what ownership is, and several ways to achieve effective ownership.
+What is ownership? Before we can talk about what ownership means and how to achieve it, we need to agree on a definition of ownership. For me, ownership has three pillars: the authority to influence outcomes, responsibility for the outcomes, and a commitment to making sure that the things that need to be done, get done.</description>
+    </item>
+    
+    <item>
+      <title>Principled Development</title>
+      <link>https://philliams.github.io/posts/career_5_years/principled_excellence/</link>
+      <pubDate>Sun, 10 Sep 2023 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_5_years/principled_excellence/</guid>
+      <description>I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &amp;ldquo;Principled Development&amp;rdquo; into my daily work as a Machine Learning developer.
+In this post, &amp;ldquo;Principled Development&amp;rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.</description>
+    </item>
+    
+    <item>
+      <title>Generators and Coroutines in Python</title>
+      <link>https://philliams.github.io/posts/python_posts/generators_coroutines/</link>
+      <pubDate>Tue, 10 May 2022 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/python_posts/generators_coroutines/</guid>
+      <description>Generators and Coroutines are very powerful tools in Python that can help simplify logic, speed up data-intensive programs or provide flexible and re-useable APIs. In this post, we will explore three main concepts in Python : Generators, Coroutines and Cogenerators.
+Generators Generators in Python are objects that contain some sort of internal state, and know how to produce the &amp;ldquo;next&amp;rdquo; value in a sequence.
+Before we talk about what generators are, we should talk about what problems they can help solve!</description>
+    </item>
+    
+    <item>
+      <title>Reproducible software in research using Python - Part 1</title>
+      <link>https://philliams.github.io/posts/devops/reproducible_ml_1/</link>
+      <pubDate>Sat, 19 Jun 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/devops/reproducible_ml_1/</guid>
+      <description>One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.
+In this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results.</description>
+    </item>
+    
+    <item>
+      <title>Monads in Python</title>
+      <link>https://philliams.github.io/posts/functional_programming/python_monads/</link>
+      <pubDate>Tue, 16 Feb 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/functional_programming/python_monads/</guid>
+      <description>Monads are a super interesting and useful design pattern often seen in functional programming languages such as Haskell. That being said, it is pretty simple to implement our own monads in Python.
+When talking about Monads, there are three &amp;ldquo;main&amp;rdquo; things that I use to describe in practical terms what a Monad is and what it does:
+Monads are essentially containers for values. In other words, you will have a Monad that will contain some arbitrary value or variable.</description>
+    </item>
+    
+    <item>
+      <title>Decorators in Python</title>
+      <link>https://philliams.github.io/posts/python_posts/python_decorators/</link>
+      <pubDate>Mon, 01 Feb 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/python_posts/python_decorators/</guid>
+      <description>Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming.</description>
+    </item>
+    
+    <item>
+      <title>Implementing Neural Networks in Python</title>
+      <link>https://philliams.github.io/posts/machine_learning_basic/neural_network/</link>
+      <pubDate>Sat, 23 Jan 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/machine_learning_basic/neural_network/</guid>
+      <description>One of the more interesting Machine Learning models is the Neural Network. A Neural Network is a highly non-linear mathematical model that can be fitted to very complicated datasets, from image classification to text translation. In this blog post, we’ll be implementing our own simple Neural Network library in python, then test how our model performs through a practical example on an image classification dataset.
+What is a Neural Network? There are several types of Neural Networks, however we will be examining the simplest variant : a simple Feed-Forward Neural Network.</description>
+    </item>
+    
+    <item>
+      <title>Implementing Logistic regression in Python</title>
+      <link>https://philliams.github.io/posts/machine_learning_basic/logistic_regression/</link>
+      <pubDate>Fri, 22 Jan 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/machine_learning_basic/logistic_regression/</guid>
+      <description>One of the simplest Machine Learning algorithms is Logistic Regression. At a conceptual level, there’s not much more to it than some simple calculus, but this algorithm can still be pretty effective in a lot of situations. In this post, we’re going to take a little bit of a look at the math behind Logistic Regression and then implement our own Logistic Regression library in python.
+What is Logistic Regression? First of all, when we talk about Machine Learning, we are really talking about curve fitting.</description>
+    </item>
+    
+    <item>
+      <title>How to get a job as a student</title>
+      <link>https://philliams.github.io/posts/career_posts/getting_student_job/</link>
+      <pubDate>Wed, 20 Jan 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://philliams.github.io/posts/career_posts/getting_student_job/</guid>
+      <description>I’ve gotten a lot of questions on how to get a job as a student. Often students want to buff up their resumes or skills a few weeks before their interviews. Honestly, I don’t think there’s much you can do in less than a few months to improve your chances. Obviously you can review algorithms, practice questions and buff up you knowledge to give you a slight advantage, but if you really want to level up and give yourself the best chance at landing the type of jobs you want, you need to start at least 6 months in advance.</description>
+    </item>
+    
+  </channel>
+</rss>

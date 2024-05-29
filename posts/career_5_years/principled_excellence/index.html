@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Principled Development | An Hour A Day</title>
+<meta name="keywords" content="Career, Software Engineering, 5 Year Recap">
+<meta name="description" content="I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &ldquo;Principled Development&rdquo; into my daily work as a Machine Learning developer.
+In this post, &ldquo;Principled Development&rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/career_5_years/principled_excellence/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Principled Development" />
+<meta property="og:description" content="I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &ldquo;Principled Development&rdquo; into my daily work as a Machine Learning developer.
+In this post, &ldquo;Principled Development&rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/career_5_years/principled_excellence/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-10T12:00:00+00:00" />
+<meta property="article:modified_time" content="2023-09-10T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Principled Development"/>
+<meta name="twitter:description" content="I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &ldquo;Principled Development&rdquo; into my daily work as a Machine Learning developer.
+In this post, &ldquo;Principled Development&rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Principled Development",
+      "item": "https://philliams.github.io/posts/career_5_years/principled_excellence/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Principled Development",
+  "name": "Principled Development",
+  "description": "I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call \u0026ldquo;Principled Development\u0026rdquo; into my daily work as a Machine Learning developer.\nIn this post, \u0026ldquo;Principled Development\u0026rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.",
+  "keywords": [
+    "Career", "Software Engineering", "5 Year Recap"
+  ],
+  "articleBody": "I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call “Principled Development” into my daily work as a Machine Learning developer.\nIn this post, “Principled Development” refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.\nThe framework in question should be a set of clear, unambiguous, actionable and objective principles and heuristics to guide development. For example, “good code”, “clean code” or “better abstractions” are all completely useless when evaluating code. For example, “good code” is a matter of personal taste, and does not relate to any actionable insighs to increasing code quality. On the other hand “easy to test”, “easy to deploy” and “easy to modify” are all clear, unambiguous and actionable principles that lead to better code quality and better developer experience. Code that requires a lot of mocking or complex internal state is hard to test, and should be refactored to be more easily tested. Code that requires complex and slow deployment makes development more difficult, and should be changed to be deployed quickly via a single command. Code that requires a lot of pain staking changes to configuration files is hard to modify, and should be refactored such that changes can be quickly tested with minimal overhead.\nThe specific choice of principles may be different from one developer to another, or from one team to another. This is fine and expected, the key take-away is that developers should strive to develop their own set of principles, and to make every decision and to validate every design against their set of principles. Additionally, the principles would be expected to evolve over time and in the presence of new information.\nMy Principles My personal framework for principled development has 8 core tenets:\nExplicitness Single source of truth Ease of testing Short iteration cycles Fail eagerly Fail explicitely Thin and flat Ease of debugging Explicitness When reading code for a given function/class/module/etc., all definitions, dependencies and inputs should be explicitely identifiable from within the code. More precisely, a developer should be able to navigate the code where a function/data is used, to where the function/data is defined without any prior knowledge of the codebase.\nLet’s look at an example of a simple function that processes a dictionary that is expected to have a given schema. This data is static metadata that changes rarely, and is checked into the version control system. In the first example, we will load the dictionary from a JSON file stored on disk.\nimport os def main(): filepath = os.environ['SOME_FILE_PATH'] data = load_json(filepath) do_logic(data) if __name__ == '__main__': main() The example above is extremely hard to validate without access to a running copy of the application. Some uncertainties include: how/where was the environment variable set? What is the value of the environment variable? What file was loaded? What are the contents/expected schema for the data?\nAll of these questions can be answered, but require either a running application, or prior knowledge of the codebase, since there are no imports, type hints or definitions that can be used to back-track.\nFor an alternative implementation, we can instead put the data into a separate module, define some type hints, and import the module itself.\n# in data_module.py from typing import TypedDict class DummySchema(TypedDict): foo: str bar: int data: DummySchema = {'foo': 'bar', 'bar' : 1234} def get_data() -\u003e DummySchema: return data # in the main_script.py import data_module def main(): data = data_module.get_data() do_logic(data) if __name__ == '__main__': main() The example above achieves the same functionality, as the first example, but in a much more explicit way. From the main() function, I can immediately view the schema via the type hint DummySchema, as well as validate the contents in data_module.data.\nSingle source of truth For every process, and within the code, there should be a single, unambiguous source of truth. This means that we should only have a single approved/supported way of running tests, linting, deploying the application, etc. that is used both locally by developers and as a part of the build pipeline.\nFor example, in my sample repo Python-Prefab, a handful of commands are specified in the Makefile and are used both locally and within the CI pipeline.\nEase of testing Testing code is necessary and gives increased confidence when making significant changes. Code should strive to be as easy to test as possible. Tricky mocking logic, difficulties isolating global/environment variables or strict coupling to deployed environments should be eliminated. An ideal state to strive for, is to be able to test the majority of the logic (\u003e90%) entire within unit tests with no mocking.\nAs an example, let’s look at two implementations of some logic that will load data from the database, perform some transformations, and persist the result:\nimport psycopg2 # Library for making db connections def do_main(): # create query string for load query_string_load = ... # load data from db connection = psycopg2.connect(...) cursor = connection.cursor() cursor.execute(query_string_load) data = cursor.fetchall() # apply transformations for record in data: # do some data transformations do_mutate_data(record) # create query string for save query_string_save = ... cursor.execute(query_string_save, data) if __name__ == \"__main__\": do_main() In the example above, you would need to mock creating the db connection, executing queries and saving the data. This means that : 1) you need to mock a significant amount of the database interface (which will be a lot of work) and 2) your tests are tightly coupled to the internals of your logic.\nAn alternative implementation may look something like:\n# in main_script.py def load(cursor): # create query string for load query_string_load = ... # load data from db cursor.execute(query_string_load) data = cursor.fetchall() return data def save(cursor, data): # create query string for save query_string_save = ... cursor.execute(query_string_save, data) def do_logic(data): # apply transformations for record in data: # do some data transformations do_mutate_data(record) return data def do_main(): connection = psycopg2.connect(...) cursor = connection.cursor() data = load(cursor) result = do_logic(data) save(cursor, result) if __name__ == \"__main__\": do_main() In the second example above, we can now test the do_logic function on it’s own, by simply passing in the correct data structure. This allows my tests to be decoupled from the IO logic. Additionally, if I want to test do_main(), I simple need to mock load(...) to return a premade object and save(...) can be mocked with a simple function to record the result in memory to be validated. Consequently, my tests are : 1) less effort to write, 2) decoupled from the internals of both my logic and the library api, and 3) allow me to test my entire main script within a unit test (IO excepted).\nShort iteration cycles There should be an emphasis on short iteration cycles. If significant logic can be run or tested locally, the iteration time for testing a change may be on the order of seconds. On the other hand, the same code may take many minutes or hours to deploy and test in a staging environment. Short iteration loops allow for greater productivity, code quality, and reduces risk when making changes. Consequently, architectures that enable short iteration cycles should be heavily encouraged when choosing designs.\nSome tricks for enabling short iteration cycles include:\nLocal only development Moving detailed checks from integration tests to unit tests Using static analysis tools Fail eagerly Code should check for reasonably expected edge cases that would cause the code to fail. Additionally, the code should fail at the earliest possible opportunity with descriptive and actionable error messages that allow for the code to be debugged with needing to manually instrument the code and re-run the application. In essence, if any inputs are wrong, malformed, corrupted, incorrectly configured, etc., an exception should be raised that will allow for a developer to quickly identify the source of the issue.\nAn extreme version of this is “Crash-only Software”, where any unexpected failure causes the system to outright crash. In the short term, this makes the system more flakey and prone to crashing. But in the long term, the system becomes more robust as any issues are immediatly made visible and resolved.\nFail explicitely In Machine Learning applications, it is key not only to have the application run correctly, but also to ensure that the model and data are accurate. Towards this end, silent failures are a significant source of issues. Silent failures can degrade data quality, degrade model quality, or cause issues in training and inference in a hard-to-detect manner.\nAs such, various mechanicsm that swallow exceptions such be avoided. For example, blanket catch statements should not be used. Rather only specific and expected exception should be caught. If a library or dependency is expected to sometimes raise exceptions, those should be caught and handled as part of the regular control flow. If an exception is not expected, then it should be raised, logged, or otherwise surfaced. Silent failures are some of the hardest errors to fix and should be avoided.\nThin and flat Code should be kept as flat and thin as possible. Minimize nested logic, abstraction, and inheritance. There are many reasons for this: 1) deeper code has been showed to be disproportionally hard to understand (Maheswaran, K., and A. Aloysius. “Cognitive weighted inherited class complexity metric.” Procedia Computer Science 125 (2018): 297-304.) and 2) deeper code makes debugging much harder, as the internal state is less accessible and requires significant changes to examine the behaviour at a low level.\nEase of debugging Finally, the code should be as easy to debug as possible. In an abstract sense, this means making the internal state of the code as accessible as possible. In practice, this means a few things: 1) minimizing the number of abstraction layers between the developer and the running code, 2) enabling tools such as debuggers and log aggregation services, and 3) setting up sample datasets and environments to quickly set up and test the code in a variety of situations.\nConclusion In conclusion, meta-strategies are a powerful tool for making and communicating technical decisions. Additionally, meta-strategies should be clear and actionable, with some examples and inspiration given by my personal meta-strategy. Finally, meta-strategies can be shared within a broader team or organization, as a way of aligning developers and building more consistent and hig-quality software.\n",
+  "wordCount" : "1764",
+  "inLanguage": "en",
+  "datePublished": "2023-09-10T12:00:00Z",
+  "dateModified": "2023-09-10T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/career_5_years/principled_excellence/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Principled Development
+    </h1>
+    <div class="post-meta"><span title='2023-09-10 12:00:00 +0000 UTC'>September 10, 2023</span>&nbsp;·&nbsp;9 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>I am a very strong believer in consistency. In fact, I think that consistency is at the heart of any engineering endeavor. Towards this end, I implemented what I call &ldquo;Principled Development&rdquo; into my daily work as a Machine Learning developer.</p>
+<p>In this post, &ldquo;Principled Development&rdquo; refects to having a framework of clear and actionable heuristics for making technical decisions, and evaluating designs and implementations. Having a framework for making consistent technical decisions is incredibly valuable, it allows for alignment and a unified technical vision within the team, provides a scaffold for ideologically consistent development over time, and increases overall code quality.</p>
+<p>The framework in question should be a set of clear, unambiguous, actionable and objective principles and heuristics to guide development. For example, &ldquo;good code&rdquo;, &ldquo;clean code&rdquo; or &ldquo;better abstractions&rdquo; are all completely useless when evaluating code. For example, &ldquo;good code&rdquo; is a matter of personal taste, and does not relate to any actionable insighs to increasing code quality. On the other hand &ldquo;easy to test&rdquo;, &ldquo;easy to deploy&rdquo; and &ldquo;easy to modify&rdquo; are all clear, unambiguous and actionable principles that lead to better code quality and better developer experience. Code that requires a lot of mocking or complex internal state is hard to test, and should be refactored to be more easily tested. Code that requires complex and slow deployment makes development more difficult, and should be changed to be deployed quickly via a single command. Code that requires a lot of pain staking changes to configuration files is hard to modify, and should be refactored such that changes can be quickly tested with minimal overhead.</p>
+<p>The specific choice of principles may be different from one developer to another, or from one team to another. This is fine and expected, the key take-away is that developers should strive to develop their own set of principles, and to make every decision and to validate every design against their set of principles. Additionally, the principles would be expected to evolve over time and in the presence of new information.</p>
+<h2 id="my-principles">My Principles<a hidden class="anchor" aria-hidden="true" href="#my-principles">#</a></h2>
+<p>My personal framework for principled development has 8 core tenets:</p>
+<ol>
+<li>Explicitness</li>
+<li>Single source of truth</li>
+<li>Ease of testing</li>
+<li>Short iteration cycles</li>
+<li>Fail eagerly</li>
+<li>Fail explicitely</li>
+<li>Thin and flat</li>
+<li>Ease of debugging</li>
+</ol>
+<h4 id="explicitness">Explicitness<a hidden class="anchor" aria-hidden="true" href="#explicitness">#</a></h4>
+<p>When reading code for a given function/class/module/etc., all definitions, dependencies and inputs should be explicitely identifiable from within the code. More precisely, a developer should be able to navigate the code where a function/data is used, to where the function/data is defined without any prior knowledge of the codebase.</p>
+<p>Let&rsquo;s look at an example of a simple function that processes a dictionary that is expected to have a given schema. This data is static metadata that changes rarely, and is checked into the version control system. In the first example, we will load the dictionary from a JSON file stored on disk.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    filepath <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;SOME_FILE_PATH&#39;</span>]
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> load_json(filepath)
+</span></span><span style="display:flex;"><span>    do_logic(data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>The example above is extremely hard to validate without access to a running copy of the application. Some uncertainties include: how/where was the environment variable set? What is the value of the environment variable? What file was loaded? What are the contents/expected schema for the data?</p>
+<p>All of these questions can be answered, but require either a running application, or prior knowledge of the codebase, since there are no imports, type hints or definitions that can be used to back-track.</p>
+<p>For an alternative implementation, we can instead put the data into a separate module, define some type hints, and import the module itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># in data_module.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> TypedDict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DummySchema</span>(TypedDict):
+</span></span><span style="display:flex;"><span>    foo: str
+</span></span><span style="display:flex;"><span>    bar: int
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data: DummySchema <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;foo&#39;</span>: <span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;bar&#39;</span> : <span style="color:#ae81ff">1234</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_data</span>() <span style="color:#f92672">-&gt;</span> DummySchema:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># in the main_script.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> data_module
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> data_module<span style="color:#f92672">.</span>get_data()
+</span></span><span style="display:flex;"><span>    do_logic(data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>The example above achieves the same functionality, as the first example, but in a much more explicit way. From the <code>main()</code> function, I can immediately view the schema via the type hint <code>DummySchema</code>, as well as validate the contents in <code>data_module.data</code>.</p>
+<h4 id="single-source-of-truth">Single source of truth<a hidden class="anchor" aria-hidden="true" href="#single-source-of-truth">#</a></h4>
+<p>For every process, and within the code, there should be a single, unambiguous source of truth. This means that we should only have a single approved/supported way of running tests, linting, deploying the application, etc. that is used both locally by developers and as a part of the build pipeline.</p>
+<p>For example, in my sample repo <a href="https://github.com/Philliams/Python-Prefab">Python-Prefab</a>, a handful of commands are specified in the <a href="https://github.com/Philliams/Python-Prefab/blob/main/Makefile">Makefile</a> and are used both locally and within the <a href="https://github.com/Philliams/Python-Prefab/blob/main/.github/workflows/CI.yml">CI pipeline</a>.</p>
+<h4 id="ease-of-testing">Ease of testing<a hidden class="anchor" aria-hidden="true" href="#ease-of-testing">#</a></h4>
+<p>Testing code is necessary and gives increased confidence when making significant changes. Code should strive to be as easy to test as possible. Tricky mocking logic, difficulties isolating global/environment variables or strict coupling to deployed environments should be eliminated. An ideal state to strive for, is to be able to test the majority of the logic (&gt;90%) entire within unit tests with no mocking.</p>
+<p>As an example, let&rsquo;s look at two implementations of some logic that will load data from the database, perform some transformations, and persist the result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> psycopg2 <span style="color:#75715e"># Library for making db connections</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_main</span>():
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># create query string for load</span>
+</span></span><span style="display:flex;"><span>    query_string_load <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># load data from db</span>
+</span></span><span style="display:flex;"><span>    connection <span style="color:#f92672">=</span> psycopg2<span style="color:#f92672">.</span>connect(<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    cursor <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>cursor()
+</span></span><span style="display:flex;"><span>    cursor<span style="color:#f92672">.</span>execute(query_string_load)
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> cursor<span style="color:#f92672">.</span>fetchall()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># apply transformations</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> data:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># do some data transformations</span>
+</span></span><span style="display:flex;"><span>        do_mutate_data(record)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># create query string for save</span>
+</span></span><span style="display:flex;"><span>    query_string_save <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    cursor<span style="color:#f92672">.</span>execute(query_string_save, data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    do_main()
+</span></span></code></pre></div><p>In the example above, you would need to mock creating the db connection, executing queries and saving the data. This means that : 1) you need to mock a significant amount of the database interface (which will be a lot of work) and 2) your tests are tightly coupled to the internals of your logic.</p>
+<p>An alternative implementation may look something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># in main_script.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load</span>(cursor):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># create query string for load</span>
+</span></span><span style="display:flex;"><span>    query_string_load <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># load data from db</span>
+</span></span><span style="display:flex;"><span>    cursor<span style="color:#f92672">.</span>execute(query_string_load)
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> cursor<span style="color:#f92672">.</span>fetchall()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save</span>(cursor, data):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># create query string for save</span>
+</span></span><span style="display:flex;"><span>    query_string_save <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    cursor<span style="color:#f92672">.</span>execute(query_string_save, data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_logic</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># apply transformations</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> data:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># do some data transformations</span>
+</span></span><span style="display:flex;"><span>        do_mutate_data(record)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_main</span>():
+</span></span><span style="display:flex;"><span>    connection <span style="color:#f92672">=</span> psycopg2<span style="color:#f92672">.</span>connect(<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    cursor <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span>cursor()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> load(cursor)
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> do_logic(data)
+</span></span><span style="display:flex;"><span>    save(cursor, result)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    do_main()
+</span></span></code></pre></div><p>In the second example above, we can now test the <code>do_logic</code> function on it&rsquo;s own, by simply passing in the correct data structure. This allows my tests to be decoupled from the IO logic. Additionally, if I want to test <code>do_main()</code>, I simple need to mock <code>load(...)</code> to return a premade object and <code>save(...)</code> can be mocked with a simple function to record the result in memory to be validated. Consequently, my tests are : 1) less effort to write, 2) decoupled from the internals of both my logic and the library api, and 3) allow me to test my entire main script within a unit test (IO excepted).</p>
+<h4 id="short-iteration-cycles">Short iteration cycles<a hidden class="anchor" aria-hidden="true" href="#short-iteration-cycles">#</a></h4>
+<p>There should be an emphasis on short iteration cycles. If significant logic can be run or tested locally, the iteration time for
+testing a change may be on the order of seconds. On the other hand, the same code may take many minutes or hours to deploy and test in a staging environment. Short iteration loops allow for greater productivity, code quality, and reduces risk when making changes. Consequently, architectures that enable short iteration cycles should be heavily encouraged when choosing designs.</p>
+<p>Some tricks for enabling short iteration cycles include:</p>
+<ul>
+<li>Local only development</li>
+<li>Moving detailed checks from integration tests to unit tests</li>
+<li>Using static analysis tools</li>
+</ul>
+<h4 id="fail-eagerly">Fail eagerly<a hidden class="anchor" aria-hidden="true" href="#fail-eagerly">#</a></h4>
+<p>Code should check for reasonably expected edge cases that would cause the code to fail. Additionally, the code should fail at the earliest possible opportunity with descriptive and actionable error messages that allow for the code to be debugged with needing to manually instrument the code and re-run the application. In essence, if any inputs are wrong, malformed, corrupted, incorrectly configured, etc., an exception should be raised that will allow for a developer to quickly identify the source of the issue.</p>
+<p>An extreme version of this is &ldquo;Crash-only Software&rdquo;, where any unexpected failure causes the system to outright crash. In the short term, this makes the system more flakey and prone to crashing. But in the long term, the system becomes more robust as any issues are immediatly made visible and resolved.</p>
+<h4 id="fail-explicitely">Fail explicitely<a hidden class="anchor" aria-hidden="true" href="#fail-explicitely">#</a></h4>
+<p>In Machine Learning applications, it is key not only to have the application run correctly, but also to ensure that the model and data are accurate. Towards this end, silent failures are a significant source of issues. Silent failures can degrade data quality, degrade model quality, or cause issues in training and inference in a hard-to-detect manner.</p>
+<p>As such, various mechanicsm that swallow exceptions such be avoided. For example, blanket catch statements should not be used. Rather only specific and expected exception should be caught. If a library or dependency is expected to sometimes raise exceptions, those should be caught and handled as part of the regular control flow. If an exception is not expected, then it should be raised, logged, or otherwise surfaced. Silent failures are some of the hardest errors to fix and should be avoided.</p>
+<h4 id="thin-and-flat">Thin and flat<a hidden class="anchor" aria-hidden="true" href="#thin-and-flat">#</a></h4>
+<p>Code should be kept as flat and thin as possible. Minimize nested logic, abstraction, and inheritance. There are many reasons for this: 1) deeper code has been showed to be disproportionally hard to understand (Maheswaran, K., and A. Aloysius. &ldquo;Cognitive weighted inherited class complexity metric.&rdquo; Procedia Computer Science 125 (2018): 297-304.) and 2) deeper code makes debugging much harder, as the internal state is less accessible and requires significant changes to examine the behaviour at a low level.</p>
+<h4 id="ease-of-debugging">Ease of debugging<a hidden class="anchor" aria-hidden="true" href="#ease-of-debugging">#</a></h4>
+<p>Finally, the code should be as easy to debug as possible. In an abstract sense, this means making the internal state of the code as accessible as possible. In practice, this means a few things: 1) minimizing the number of abstraction layers between the developer and the running code, 2) enabling tools such as debuggers and log aggregation services, and 3) setting up sample datasets and environments to quickly set up and test the code in a variety of situations.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>In conclusion, meta-strategies are a powerful tool for making and communicating technical decisions. Additionally, meta-strategies should be clear and actionable, with some examples and inspiration given by my personal meta-strategy. Finally, meta-strategies can be shared within a broader team or organization, as a way of aligning developers and building more consistent and hig-quality software.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/career/">Career</a></li>
+      <li><a href="https://philliams.github.io/tags/software-engineering/">Software Engineering</a></li>
+      <li><a href="https://philliams.github.io/tags/5-year-recap/">5 Year Recap</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

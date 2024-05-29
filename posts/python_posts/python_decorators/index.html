@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Decorators in Python | An Hour A Day</title>
+<meta name="keywords" content="Python, Functional Programming">
+<meta name="description" content="Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming.">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/python_posts/python_decorators/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Decorators in Python" />
+<meta property="og:description" content="Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/python_posts/python_decorators/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-02-01T12:00:00+00:00" />
+<meta property="article:modified_time" content="2021-02-01T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Decorators in Python"/>
+<meta name="twitter:description" content="Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Decorators in Python",
+      "item": "https://philliams.github.io/posts/python_posts/python_decorators/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Decorators in Python",
+  "name": "Decorators in Python",
+  "description": "Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming.",
+  "keywords": [
+    "Python", "Functional Programming"
+  ],
+  "articleBody": "In python, you may have seen some syntax that looks a little like this:\n@something def foo(): pass The @something statement is called a decorator and is syntactic sugar allow you to concisely implement and use interesting concepts from functional programming called “Higher-order Functions” and “currying”. Before we get into how and why we might use decorators in Python, let’s talk about functional programming, Higher-Order Functions and currying.\nCurrying Currying is a technique for taking a function that takes multiple inputs, and converting it into a sequence of single-input functions. Let’s look at a simple function that computes the sum of 3 numbers, and then curry it.\ndef sum(x, y, z): return x + y + z print(sum(1, 2, 3)) If we were to curry the function, it would look something like this:\ndef sum(x): def _sum(y): def __sum(z): return x + y + z return __sum return _sum print(sum(1)(2)(3)) There are a couple of things worth noting about this curried function:\nThe inner function(s) have access to the scope of the outer function(s) The functions themselves return functions To properly execute it, you need to do a bunch of successive function calls Currying is not directly related to decorators, but it leads nicely into the next import concept to grasp when dealing with decorators : Higher-Order Functions.\nHigher-Order Functions Higher-Order Functions are functions that take other functions as inputs and return a new function as an input. This is somewhat different to the curried functions from earlier, as they take in integers and return functions, but the concepts are similar.\nHigher-Order Functions are super useful for modifying the behavior of a function from outside the function itself. Let’s look at an example where we use a Higher-Order Function to retry a function that throws an exception:\ndef throws_exc(): print('this function will raise an exception!') raise Exception('This Failed') def higher_order_retry(f): def _retry(): try: f() except: f() return _retry new_function = higher_order_retry(throws_exc) new_function() # this will print twice! In the code snippet above the higher_order_retry function is in fact a Higher-Order Function. It will take in a function pointer f and will return a new function pointer that wraps the original one in a try-catch block.\nHigher-Order Functions are clearly powerful, since I can now write my try-catch logic once, and use it everywhere I want in my code! The main issue with this type of approach is that the higher_order_retry(f)() syntax is pretty cumbersome and we need to add this verbose function call anywhere that we want to modify the behavior of f.\nDecorators Enter decorators. Decorators are Python syntactic sugar that allows us to apply Higher-Order Functions to a function definition in a single line of code, and have that higher order logic be automatically applied anywhere that the function is used.\nFirst, we implement our decorator in the form of a function, here the inner block __retry accepts any number of args and kwargs and passes them along to the function being wrapped.\ndef retry_decorator(f): def __retry(*args, **kwargs): try: return f(*args, **kwargs) except: return f(*args, **kwargs) return __retry Next, we can use the @decorator syntax to apply our decorator to any function we care about:\n@retry_decorator def throws_exception(a, b=None): print(f'a={a}, b={b}') raise Exception('This function failed') throws_exception(1, b=2) # this will print twice! This is equivalent to the following implementation without using decorators:\ndef throws_exception(a, b=None): print(f'a={a}, b={b}') raise Exception('This function failed') throws_exception = retry_decorator(throws_exception) throws_exception(1, b=2) # this will print twice! Or this implementation if you want to explicitly use the Higher-Order Function every time:\nretry_decorator(throws_exception)(1, b=2) Now that we know what decorators are, how they work and how to implement them, we can finally talk about why you might want to use decorators.\nDecorators are a really awesome way to modify the behavior of the function without modifying the code inside of the function. This allows you to solver certain types of problems in a generic and re-useable way.\nTakeaways Decorators are useful whenever you want to modify the behavior of some code in a generic way from outside the function itself. A few common situations where decorators are often used would be:\nRetrying a flakey operation (for example exponential back off for network communication). By implementing a retry decorator, you can have all of your network communication use the same retry strategy without duplicate or repeated code.\nLogging/debugging code can be made much easier by implementing decorators that print out all of the inputs to a given function, allowing you to easily spot check every place where a function is called while only needing to add a single line of code at the function definition.\nAdvanced functional programming techniques such as Monads also benefit from the use of decorators and can allow you to use exotic and powerful design patterns while keeping the code clean and concise.\nIn conclusion, by using decorators, you can reduce repeated or duplicated code, make your software cleaner and easier to maintain, make logging and debugging easier as well as seamlessly integrate more exotic design patterns without adding visual clutter or verbosity.\n",
+  "wordCount" : "841",
+  "inLanguage": "en",
+  "datePublished": "2021-02-01T12:00:00Z",
+  "dateModified": "2021-02-01T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/python_posts/python_decorators/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Decorators in Python
+    </h1>
+    <div class="post-description">
+      Decorators are an interesting and powerful tool based on some interesting concepts borrowed from functional programming.
+    </div>
+    <div class="post-meta"><span title='2021-02-01 12:00:00 +0000 UTC'>February 1, 2021</span>&nbsp;·&nbsp;4 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>In python, you may have seen some syntax that looks a little like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@something</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>The <code>@something</code> statement is called a decorator and is syntactic sugar allow you to concisely implement and use interesting concepts from functional programming called &ldquo;Higher-order Functions&rdquo; and &ldquo;currying&rdquo;. Before we get into how and why we might use decorators in Python, let&rsquo;s talk about functional programming, Higher-Order Functions and currying.</p>
+<h2 id="currying">Currying<a hidden class="anchor" aria-hidden="true" href="#currying">#</a></h2>
+<p>Currying is a technique for taking a function that takes multiple inputs, and converting it into a sequence of single-input functions. Let&rsquo;s look at a simple function that computes the sum of 3 numbers, and then curry it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sum</span>(x, y, z):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y <span style="color:#f92672">+</span> z
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>print(sum(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
+</span></span></code></pre></div><p>If we were to curry the function, it would look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sum</span>(x):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_sum</span>(y):
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__sum</span>(z):
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y <span style="color:#f92672">+</span> z
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> __sum
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> _sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(sum(<span style="color:#ae81ff">1</span>)(<span style="color:#ae81ff">2</span>)(<span style="color:#ae81ff">3</span>))
+</span></span></code></pre></div><p>There are a couple of things worth noting about this curried function:</p>
+<ol>
+<li>The inner function(s) have access to the scope of the outer function(s)</li>
+<li>The functions themselves return functions</li>
+<li>To properly execute it, you need to do a bunch of successive function calls</li>
+</ol>
+<p>Currying is not directly related to decorators, but it leads nicely into the next import concept to grasp when dealing with decorators : Higher-Order Functions.</p>
+<h2 id="higher-order-functions">Higher-Order Functions<a hidden class="anchor" aria-hidden="true" href="#higher-order-functions">#</a></h2>
+<p>Higher-Order Functions are functions that take other functions as inputs and return a new function as an input. This is somewhat different to the curried functions from earlier, as they take in integers and return functions, but the concepts are similar.</p>
+<p>Higher-Order Functions are super useful for modifying the behavior of a function from outside the function itself. Let&rsquo;s look at an example where we use a Higher-Order Function to retry a function that throws an exception:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">throws_exc</span>():
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">&#39;this function will raise an exception!&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;This Failed&#39;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">higher_order_retry</span>(f):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_retry</span>():
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    		f()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>    		f()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> _retry
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>new_function <span style="color:#f92672">=</span> higher_order_retry(throws_exc)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>new_function() <span style="color:#75715e"># this will print twice!</span>
+</span></span></code></pre></div><p>In the code snippet above the <code>higher_order_retry</code> function is in fact a Higher-Order Function. It will take in a function pointer <code>f</code> and will return a new function pointer that wraps the original one in a try-catch block.</p>
+<p>Higher-Order Functions are clearly powerful, since I can now write my try-catch logic once, and use it everywhere I want in my code! The main issue with this type of approach is that the <code>higher_order_retry(f)()</code> syntax is pretty cumbersome and we need to add this verbose function call anywhere that we want to modify the behavior of <code>f</code>.</p>
+<h2 id="decorators">Decorators<a hidden class="anchor" aria-hidden="true" href="#decorators">#</a></h2>
+<p>Enter decorators. Decorators are Python syntactic sugar that allows us to apply Higher-Order Functions to a function definition in a single line of code, and have that higher order logic be automatically applied anywhere that the function is used.</p>
+<p>First, we implement our decorator in the form of a function, here the inner block <code>__retry</code> accepts any number of args and kwargs and passes them along to the function being wrapped.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">retry_decorator</span>(f):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__retry</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> f(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> f(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> __retry
+</span></span></code></pre></div><p>Next, we can use the <code>@decorator</code> syntax to apply our decorator to any function we care about:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#a6e22e">@retry_decorator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">throws_exception</span>(a, b<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;a=</span><span style="color:#e6db74">{</span>a<span style="color:#e6db74">}</span><span style="color:#e6db74">, b=</span><span style="color:#e6db74">{</span>b<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;This function failed&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>throws_exception(<span style="color:#ae81ff">1</span>, b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>) <span style="color:#75715e"># this will print twice!</span>
+</span></span></code></pre></div><p>This is equivalent to the following implementation without using decorators:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">throws_exception</span>(a, b<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;a=</span><span style="color:#e6db74">{</span>a<span style="color:#e6db74">}</span><span style="color:#e6db74">, b=</span><span style="color:#e6db74">{</span>b<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">Exception</span>(<span style="color:#e6db74">&#39;This function failed&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>throws_exception <span style="color:#f92672">=</span> retry_decorator(throws_exception)
+</span></span><span style="display:flex;"><span>throws_exception(<span style="color:#ae81ff">1</span>, b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>) <span style="color:#75715e"># this will print twice!</span>
+</span></span></code></pre></div><p>Or this implementation if you want to explicitly use the Higher-Order Function every time:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span>retry_decorator(throws_exception)(<span style="color:#ae81ff">1</span>, b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p>Now that we know what decorators are, how they work and how to implement them, we can finally talk about why you might want to use decorators.</p>
+<p>Decorators are a really awesome way to modify the behavior of the function without modifying the code inside of the function. This allows you to solver certain types of problems in a generic and re-useable way.</p>
+<h2 id="takeaways">Takeaways<a hidden class="anchor" aria-hidden="true" href="#takeaways">#</a></h2>
+<p>Decorators are useful whenever you want to modify the behavior of some code in a generic way from outside the function itself. A few common situations where decorators are often used would be:</p>
+<ol>
+<li>
+<p>Retrying a flakey operation (for example exponential back off for network communication). By implementing a retry decorator, you can have all of your network communication use the same retry strategy without duplicate or repeated code.</p>
+</li>
+<li>
+<p>Logging/debugging code can be made much easier by implementing decorators that print out all of the inputs to a given function, allowing you to easily spot check every place where a function is called while only needing to add a single line of code at the function definition.</p>
+</li>
+<li>
+<p>Advanced functional programming techniques such as Monads also benefit from the use of decorators and can allow you to use exotic and powerful design patterns while keeping the code clean and concise.</p>
+</li>
+</ol>
+<p>In conclusion, by using decorators, you can reduce repeated or duplicated code, make your software cleaner and easier to maintain, make logging and debugging easier as well as seamlessly integrate more exotic design patterns without adding visual clutter or verbosity.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/python/">Python</a></li>
+      <li><a href="https://philliams.github.io/tags/functional-programming/">Functional Programming</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

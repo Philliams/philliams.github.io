@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Reproducible software in research using Python - Part 1 | An Hour A Day</title>
+<meta name="keywords" content="Python, Software Engineering, Machine Learning">
+<meta name="description" content="One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.
+In this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results.">
+<meta name="author" content="">
+<link rel="canonical" href="https://philliams.github.io/posts/devops/reproducible_ml_1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5cfc680b1eeaeef9efbced92d46c2a9e876b72ee14fba85846afc4cff9e6e6f8.css" integrity="sha256-XPxoCx7q7vnvvO2S1Gwqnodrcu4U&#43;6hYRq/Ez/nm5vg=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://philliams.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://philliams.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://philliams.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://philliams.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://philliams.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<meta property="og:title" content="Reproducible software in research using Python - Part 1" />
+<meta property="og:description" content="One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.
+In this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://philliams.github.io/posts/devops/reproducible_ml_1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-19T12:00:00+00:00" />
+<meta property="article:modified_time" content="2021-06-19T12:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Reproducible software in research using Python - Part 1"/>
+<meta name="twitter:description" content="One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.
+In this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://philliams.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Reproducible software in research using Python - Part 1",
+      "item": "https://philliams.github.io/posts/devops/reproducible_ml_1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Reproducible software in research using Python - Part 1",
+  "name": "Reproducible software in research using Python - Part 1",
+  "description": "One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.\nIn this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results.",
+  "keywords": [
+    "Python", "Software Engineering", "Machine Learning"
+  ],
+  "articleBody": "One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.\nIn this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results. Additionally, I will show how both of these elements can be automated, to remove any human error from the equation. Ideally, the entire experimental setup should be automated, such that it can be replicated from a handful of commands.\nThe first step to reproducible results is being able to precisely replicate the dependencies of the project. More often than not, replicating the data is straightforward, as the datasets are often published online as is. The main challenge is replicating the software environment - such as the libraries and versions - used in the experiments.\nIn this article, we will be discussing the use of Conda and make to automate the setup and teardown of python environments to allow for easy replication of the Python environment. We will be also discuss how we can use make and pytest to run unit tests, monitor code coverage and finally run our experiments.\nThe main idea is that by pre-emptively adopting certain tools and automating our experiment workflow, we can produce high-quality results that can be replicated by anyone with Conda and Make installed.\nPrerequisites This guide is specific to windows 10, however most of the steps are applicable in Linux or have direct counterparts.\nTools:\nChocolatey - used to install Make (use apt-get instead of chocolatey on Linux) GNU Make - Install via choco install make on windows Conda - Used for creating Python environments Environment setup and teardown Conda is one of many tools (one popular alternative is pipenv) that can be used to create Python virtual environments. Virtual environments are used so that you can manage several independent python installations, each with their own versions of installed libraries, without conflict on a single machine. This is great for managing your own project dependencies as well as avoiding cross-contamination and conflicting packages when working on more than one code-base.\nWith Conda, you can specify your environment in a dependencies file. You can then create a Python environment directly from a configuration file and have all of the specified libraries automatically installed. As such, if we put all of the library versions we need in this environment file, we can not only recreate or update our environment as needed, but anyone who wants to replicate our setup can do so directly from the environment file.\nHere is an example of a Conda environment file (named env.yaml) that installs pandas, numpy, scikit-learn and pytorch for Python 3.8:\nname: my_env # your env name channels: - conda-forge # where conda pulls packages from - pytorch dependencies: # all of your library versions - python=3.8 # your python version - numpy=1.20.* - pandas=1.2.* - scikit-learn=0.24.* - pytest - pytorch - torchvision - torchaudio - cudatoolkit=10.2 To create and use the environment, run the following commands in the shell/terminal:\nconda env create -f .\\env.yaml - This will create the environment and install dependencies defined in env.yaml file. conda activate my_env - This will enable your environment in the current shell. If you type python, you should see Python 3.8 as well as be able to import pandas and numpy (among other packages) Thus, if you define the required libraries in your environment file and run all of your experiment code from that environment, anyone who wants to replicate your results can re-create the environment trivially using a single command.\nNote : if there are any issues with an environment, it can be deleted with the command conda env remove -n my_env.\nDeterminism and validation The next component of reproducible (and correct) research is making sure that the experiment code is deterministic and does not contain any significant bugs or errata. In this context, determinism means that if you run the same code twice, it should produce the same result both times. For example, this might mean that any random number generators are seeded such that if you are randomly shuffling your data, it will be randomly shuffled the same way, every time.\nOne of the best ways to ensure that your experiment is deterministic is to simply run it several times, and check if produces the same result. In fact, you could consider testing for determinism as a part of testing the greater validity of the entire experiment.\nThis leads to my next point about reproducible research : testing. There are many different ways of testing code, and many paradigms that one can read about. A good starting point is to at least have unit tests for your code. A unit test is essentially a small, self contained test that will execute a small number of functions or methods and test that it behaves as expected. Obviously this is not sufficient to guarantee that the program is error free, but having a comprehensive set of unit tests that cover the expected cases of your program goes a long way to proving that your program is valid. Additionally, you can have a set of tests that will run your entire experiment multiple times and compare the results to ensure determinism. This way, you can run the tests whenever making a significant change to the code to guarantee that no errors or non-determinism have crept into the experimental setup.\nIn practice, unit tests and code coverage can be implemented using the pytest and pytest-cov libraries. Running the command python -m pytest --cov=unittests will run all of the unit tests in the unittests folder as well as check the code coverage. Code coverage is an interesting metric, since it can help you catch any parts of the experimental code that aren’t adequately tested. This can help detect and resolve breaking issues early.\nMakefiles and Automation The final element of a reproducible code setup is to automate everything so that small variations in commands don’t influence the final results or lead to divergent experimental environments. Make is a great tool for lightweight automation. In essence, a makefile defines a set of procedures that can easily be invoked, as well as store some variables for the experimental setup. To tie the automation back to the dependencies and unit tests, we can implement a makefile that will allow us to delete old environments, re-create a fresh environment unsing Conda, run all of the unit tests using pytest and then run the experiment proper.\nHere is a sample implementation of a makefile saved in your project directory with the file name makefile:\nenv_file ?= ./env.yaml # this is my env_file path env_name ?= my_env # this is my env name env: conda env remove -n ${env_name} # delete old env conda env create -f ${env_file} # create new one from env.yaml test: python -m pytest unittests/ # run all the unit tests run: python -m main.py # run my main program # this combines test and run full: test run By running the command make env, my old environment will get deleted and then a fresh environment will be created to specification from my env.yaml file using Conda. Next, I can run all of my unit tests with the command make test, this will give me a report of which tests fail and which tests pass, in addition to reporting the percentage of my code that is tested. Finally, I can run my main experiment script with the command make run. I can also combine multiple commands together as can be seen in the make full command, which will run all of my tests, and if they pass it will run my experiment.\nConclusion In conclusion, by implementing my research code using Conda, Make and pytest, I can make my results easy to reproduce by providing a full specification of the dependencies, as well as increase the confidence that the code is correct by testing the code regularly for determinism and errors as a part of my experimental process.\nThe task of reproducing or validating my code has gone from a complex process to a sequence of three simple steps:\nmake env conda activate my_env make run We’ve shown that two tools ( make and conda ) can be used to automate the reproduction of results, however any similar setup with different technologies is equally valid. The key takeaway is that the availability of tools and the ease with which code can be automated means that there is no excuse for Machine Learning research to not provide clean code and an automated methodology as a part of the publishing process.\nMany papers have been retracted due to errors that should have been caught early on, and many more have results that can never truly be verified since either the code is not available or there are severe gaps in the methodology to properly re-run the experiment. This is unacceptable and we should all do our part to adopt tool for sharing and reproducing each others results, since the results contained in papers that cannot easily be reproduced are at best suspect and at worst useless.\n",
+  "wordCount" : "1586",
+  "inLanguage": "en",
+  "datePublished": "2021-06-19T12:00:00Z",
+  "dateModified": "2021-06-19T12:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://philliams.github.io/posts/devops/reproducible_ml_1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "An Hour A Day",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://philliams.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://philliams.github.io/" accesskey="h" title="An Hour A Day (Alt + H)">An Hour A Day</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://philliams.github.io/publications/" title="Publications">
+                    <span>Publications</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://philliams.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Reproducible software in research using Python - Part 1
+    </h1>
+    <div class="post-meta"><span title='2021-06-19 12:00:00 +0000 UTC'>June 19, 2021</span>&nbsp;·&nbsp;8 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>One of the big issues in Machine Learning research is reproducibility. In fields like biology that have many experimental variables and uncertainties, it is expected that results may be difficult to reproduce due to small sample sizes and the inherent complexity of the research. However, there is no excuse for Machine Learning research to be anything but trivial to reproduce.</p>
+<p>In this blog post, I will be demonstrating ways to make the software environment used for an experiment easily replicated as well as ways to add testing as a part of the experimental process to catch errors that might threaten the integrity of the results. Additionally, I will show how both of these elements can be automated, to remove any human error from the equation. Ideally, the entire experimental setup should be automated, such that it can be replicated from a handful of commands.</p>
+<p>The first step to reproducible results is being able to precisely replicate the dependencies of the project. More often than not, replicating the data is straightforward, as the datasets are often published online as is. The main challenge is replicating the software environment - such as the libraries and versions - used in the experiments.</p>
+<p>In this article, we will be discussing the use of <code>Conda</code> and <code>make</code> to automate the setup and teardown of python environments to allow for easy replication of the Python environment. We will be also discuss how we can use <code>make</code> and <code>pytest</code> to run unit tests, monitor code coverage and finally run our experiments.</p>
+<p>The main idea is that by pre-emptively adopting certain tools and automating our experiment workflow, we can produce high-quality results that can be replicated by anyone with <code>Conda</code> and <code>Make</code> installed.</p>
+<h2 id="prerequisites">Prerequisites<a hidden class="anchor" aria-hidden="true" href="#prerequisites">#</a></h2>
+<p>This guide is specific to windows 10, however most of the steps are applicable in Linux or have direct counterparts.</p>
+<p>Tools:</p>
+<ul>
+<li>Chocolatey - used to install <code>Make</code> (use <code>apt-get</code> instead of <code>chocolatey</code> on Linux)</li>
+<li>GNU Make - Install via <code>choco install make</code> on windows</li>
+<li>Conda - Used for creating Python environments</li>
+</ul>
+<h2 id="environment-setup-and-teardown">Environment setup and teardown<a hidden class="anchor" aria-hidden="true" href="#environment-setup-and-teardown">#</a></h2>
+<p><code>Conda</code> is one of many tools (one popular alternative is <code>pipenv</code>) that can be used to create Python virtual environments. Virtual environments are used so that you can manage several independent python installations, each with their own versions of installed libraries, without conflict on a single machine. This is great for managing your own project dependencies as well as avoiding cross-contamination and conflicting packages when working on more than one code-base.</p>
+<p>With <code>Conda</code>, you can specify your environment in a dependencies file. You can then create a Python environment directly from a configuration file and have all of the specified libraries automatically installed. As such, if we put all of the library versions we need in this environment file, we can not only recreate or update our environment as needed, but anyone who wants to replicate our setup can do so directly from the environment file.</p>
+<p>Here is an example of a <code>Conda</code> environment file (named <code>env.yaml</code>) that installs <code>pandas</code>, <code>numpy</code>, <code>scikit-learn</code> and <code>pytorch</code> for Python 3.8:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">my_env</span> <span style="color:#75715e"># your env name</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">channels</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">conda-forge</span> <span style="color:#75715e"># where conda pulls packages from</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">pytorch</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>: <span style="color:#75715e"># all of your library versions</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python=3.8</span> <span style="color:#75715e"># your python version</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">numpy=1.20.*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">pandas=1.2.*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">scikit-learn=0.24.*</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">pytest</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">pytorch</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">torchvision</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">torchaudio</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">cudatoolkit=10.2</span>
+</span></span></code></pre></div><p>To create and use the environment, run the following commands in the shell/terminal:</p>
+<ol>
+<li><code>conda env create -f .\env.yaml</code> - This will create the environment and install dependencies defined in env.yaml file.</li>
+<li><code>conda activate my_env</code> - This will enable your environment in the current shell. If you type python, you should see Python 3.8 as well as be able to import pandas and numpy (among other packages)</li>
+</ol>
+<p>Thus, if you define the required libraries in your environment file and run all of your experiment code from that environment, anyone who wants to replicate your results can re-create the environment trivially using a single command.</p>
+<p>Note : if there are any issues with an environment, it can be deleted with the command <code>conda env remove -n my_env</code>.</p>
+<h2 id="determinism-and-validation">Determinism and validation<a hidden class="anchor" aria-hidden="true" href="#determinism-and-validation">#</a></h2>
+<p>The next component of reproducible (and correct) research is making sure that the experiment code is deterministic and  does not contain any significant bugs or errata. In this context, determinism means that if you run the same code twice, it should produce the same result both times. For example, this might mean that any random number generators are seeded such that if you are randomly shuffling your data, it will be randomly shuffled the same way, every time.</p>
+<p>One of the best ways to ensure that your experiment is deterministic is to simply run it several times, and check if produces the same result. In fact, you could consider testing for determinism as a part of testing the greater validity of the entire experiment.</p>
+<p>This leads to my next point about reproducible research : testing. There are many different ways of testing code, and many paradigms that one can read about. A good starting point is to at least have unit tests for your code. A unit test is essentially a small, self contained test that will execute a small number of functions or methods and test that it behaves as expected. Obviously this is not sufficient to guarantee that the program is error free, but having a comprehensive set of unit tests that cover the expected cases of your program goes a long way to proving that your program is valid. Additionally, you can have a set of tests that will run your entire experiment multiple times and compare the results to ensure determinism. This way, you can run the tests whenever making a significant change to the code to guarantee that no errors or non-determinism have crept into the experimental setup.</p>
+<p>In practice, unit tests and code coverage can be implemented using the <code>pytest</code> and <code>pytest-cov</code> libraries. Running the command <code>python -m pytest --cov=unittests</code> will run all of the unit tests in the <code>unittests</code> folder as well as check the code coverage. Code coverage is an interesting metric, since it can help you catch any parts of the experimental code that aren&rsquo;t adequately tested. This can help detect and resolve breaking issues early.</p>
+<h2 id="makefiles-and-automation">Makefiles and Automation<a hidden class="anchor" aria-hidden="true" href="#makefiles-and-automation">#</a></h2>
+<p>The final element of a reproducible code setup is to automate everything so that small variations in commands don&rsquo;t influence the final results or lead to divergent experimental environments. <code>Make</code> is a great tool for lightweight automation. In essence, a <code>makefile</code> defines a set of procedures that can easily be invoked, as well as store some variables for the experimental setup. To tie the automation back to the dependencies and unit tests, we can implement a <code>makefile</code> that will allow us to delete old environments, re-create a fresh environment unsing <code>Conda</code>, run all of the unit tests using <code>pytest</code> and then run the experiment proper.</p>
+<p>Here is a sample implementation of a <code>makefile</code> saved in your project directory with the file name <code>makefile</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>env_file <span style="color:#f92672">?=</span> ./env.yaml <span style="color:#75715e"># this is my env_file path</span>
+</span></span><span style="display:flex;"><span>env_name <span style="color:#f92672">?=</span> my_env <span style="color:#75715e"># this is my env name</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">env</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	conda env remove -n <span style="color:#e6db74">${</span>env_name<span style="color:#e6db74">}</span> <span style="color:#75715e"># delete old env</span>
+</span></span><span style="display:flex;"><span>	conda env create -f <span style="color:#e6db74">${</span>env_file<span style="color:#e6db74">}</span> <span style="color:#75715e"># create new one from env.yaml</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">test</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	python -m pytest unittests/ <span style="color:#75715e"># run all the unit tests</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	python -m main.py <span style="color:#75715e"># run my main program</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># this combines test and run
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">full</span><span style="color:#f92672">:</span> test run
+</span></span></code></pre></div><p>By running the command <code>make env</code>, my old environment will get deleted and then a fresh environment will be created to specification from my <code>env.yaml</code> file using <code>Conda</code>. Next, I can run all of my unit tests with the command <code>make test</code>, this will give me a report of which tests fail and which tests pass, in addition to reporting the percentage of my code that is tested. Finally, I can run my main experiment script with the command <code>make run</code>. I can also combine multiple commands together as can be seen in the <code>make full</code> command, which will run all of my tests, and if they pass it will run my experiment.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>In conclusion, by implementing my research code using <code>Conda</code>, <code>Make</code> and <code>pytest</code>, I can make my results easy to reproduce by providing a full specification of the dependencies, as well as increase the confidence that the code is correct by testing the code regularly for determinism and errors as a part of my experimental process.</p>
+<p>The task of reproducing or validating my code has gone from a complex process to a sequence of three simple steps:</p>
+<ol>
+<li><code>make env</code></li>
+<li><code>conda activate my_env</code></li>
+<li><code>make run</code></li>
+</ol>
+<p>We&rsquo;ve shown that two tools ( <code>make</code> and <code>conda</code> ) can be used to automate the reproduction of results, however any similar setup with different technologies is equally valid. The key takeaway is that the availability of tools and the ease with which code can be automated means that there is no excuse for Machine Learning research to not provide clean code and an automated methodology as a part of the publishing process.</p>
+<p>Many papers have been retracted due to errors that should have been caught early on, and many more have results that can never truly be verified since either the code is not available or there are severe gaps in the methodology to properly re-run the experiment. This is unacceptable and we should all do our part to adopt tool for sharing and reproducing each others results, since the results contained in papers that cannot easily be reproduced are at best suspect and at worst useless.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://philliams.github.io/tags/python/">Python</a></li>
+      <li><a href="https://philliams.github.io/tags/software-engineering/">Software Engineering</a></li>
+      <li><a href="https://philliams.github.io/tags/machine-learning/">Machine Learning</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://philliams.github.io/">An Hour A Day</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
